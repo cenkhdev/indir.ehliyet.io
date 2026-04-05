@@ -3,183 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ehliyet Cenk Hoca - Pro Thumbnail Üretici v2</title>
-    <!-- Görüntüyü indirmek için html2canvas -->
+    <title>Ehliyet Cenk Hoca - Pro Thumbnail Üretici v3 (Estetik)</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <!-- Popüler YouTube Fontları -->
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Impact&family=Montserrat:wght@800&family=Oswald:wght@700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Lexend:wght@900&family=Poppins:wght@800;900&family=Righteous&family=Titan+One&family=Unbounded:wght@900&display=swap" rel="stylesheet">
     
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #15151e; color: #fff; margin: 0; padding: 15px; display: flex; gap: 15px; height: 100vh; box-sizing: border-box; overflow: hidden; }
+        body { font-family: 'Poppins', sans-serif; background-color: #0d0d12; color: #fff; margin: 0; padding: 10px; display: flex; gap: 10px; height: 100vh; box-sizing: border-box; overflow: hidden; }
 
         /* Sol Menü Tasarımı */
-        #sidebar { width: 360px; background-color: #1e1e2d; padding: 15px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 12px; overflow-y: auto; height: 100%; }
-        #sidebar::-webkit-scrollbar { width: 6px; }
-        #sidebar::-webkit-scrollbar-track { background: #15151e; }
+        #sidebar { width: 380px; background-color: #14141f; padding: 12px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.6); display: flex; flex-direction: column; gap: 10px; overflow-y: auto; height: 100%; border: 1px solid #252535; }
+        #sidebar::-webkit-scrollbar { width: 5px; }
+        #sidebar::-webkit-scrollbar-track { background: #0d0d12; }
         #sidebar::-webkit-scrollbar-thumb { background: #ffcc00; border-radius: 4px;}
 
-        h2 { margin-top: 0; margin-bottom: 5px; color: #ffcc00; font-size: 18px; text-align: center; text-transform: uppercase; font-weight: 900; }
+        h2 { margin-top: 0; margin-bottom: 5px; color: #ffcc00; font-size: 16px; text-align: center; text-transform: uppercase; font-weight: 900; letter-spacing: 1px; }
         
-        .panel-section { background: #2a2a3c; padding: 10px; border-radius: 8px; border-left: 3px solid #ffcc00; display: flex; flex-direction: column; gap: 8px; }
-        .section-title { font-size: 12px; color: #ffcc00; text-transform: uppercase; font-weight: bold; }
+        .panel-section { background: #1e1e2d; padding: 10px; border-radius: 10px; border-left: 4px solid #ffcc00; display: flex; flex-direction: column; gap: 8px; border: 1px solid #2a2a3c; }
+        .section-title { font-size: 11px; color: #ffcc00; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
         .control-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-        label { font-size: 11px; font-weight: bold; color: #c0c0d0; flex: 1;}
+        label { font-size: 10px; font-weight: bold; color: #a0a0b0; flex: 1;}
         
-        input[type="file"], select { width: 100%; background: #15151e; color: white; border: 1px solid #40405a; padding: 6px; border-radius: 4px; cursor: pointer; font-size: 12px;}
-        input[type="color"] { width: 30px; height: 30px; border: none; cursor: pointer; background: transparent; padding: 0; }
+        input[type="file"], select { width: 100%; background: #0d0d12; color: white; border: 1px solid #353545; padding: 7px; border-radius: 6px; cursor: pointer; font-size: 11px; font-family: 'Inter', sans-serif; }
+        input[type="color"] { width: 32px; height: 32px; border: none; cursor: pointer; background: transparent; padding: 0; }
         input[type="range"] { flex: 2; cursor: pointer; }
-        input[type="number"] { width: 50px; background: #15151e; color: white; border: 1px solid #40405a; padding: 4px; border-radius: 4px; text-align: center; font-size: 12px;}
+        input[type="number"] { width: 55px; background: #0d0d12; color: white; border: 1px solid #353545; padding: 5px; border-radius: 6px; text-align: center; font-size: 11px; }
 
-        button { background-color: #ffcc00; color: #15151e; border: none; padding: 8px; font-weight: bold; border-radius: 5px; cursor: pointer; transition: 0.2s; width: 100%; font-size: 13px; text-transform: uppercase;}
-        button:hover { filter: brightness(1.1); transform: scale(1.01); }
+        button { background-color: #ffcc00; color: #0d0d12; border: none; padding: 10px; font-weight: 900; border-radius: 8px; cursor: pointer; transition: 0.2s; width: 100%; font-size: 12px; text-transform: uppercase; font-family: 'Lexend', sans-serif; letter-spacing: 0.5px;}
+        button:hover { filter: brightness(1.1); transform: translateY(-1px); }
         .btn-add { background-color: #00cc66; color: white; }
         .btn-danger { background-color: #ff4d4d; color: white; }
-        .btn-template { background-color: #9933ff; color: white; margin-top: 5px;}
-        .btn-download { background-color: #0088ff; color: white; font-size: 15px; padding: 12px;}
+        .btn-template { background-color: #7722ff; color: white; margin-top: 2px;}
+        .btn-download { background-color: #0077ff; color: white; font-size: 14px; padding: 14px; border-radius: 10px;}
         
         /* Çalışma Alanı */
-        #workspace-container { flex-grow: 1; overflow: auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(45deg, #111 25%, transparent 25%), linear-gradient(-45deg, #111 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #111 75%), linear-gradient(-45deg, transparent 75%, #111 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px; border-radius: 10px; }
+        #workspace-container { flex-grow: 1; overflow: auto; display: flex; justify-content: center; align-items: center; background-image: linear-gradient(45deg, #111 25%, transparent 25%), linear-gradient(-45deg, #111 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #111 75%), linear-gradient(-45deg, transparent 75%, #111 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px; border-radius: 12px; }
         
-        #workspace { width: 1280px; height: 720px; background-color: #000; position: relative; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.8); transform-origin: center center; }
+        #workspace { width: 1280px; height: 720px; background-color: #000; position: relative; overflow: hidden; box-shadow: 0 15px 50px rgba(0,0,0,0.8); transform-origin: center center; }
         #bg-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none; }
 
         .draggable { position: absolute; z-index: 10; cursor: move; user-select: none; }
-        .draggable.active::after { content: ''; position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px; border: 2px dashed #00cc66; pointer-events: none; }
+        .draggable.active::after { content: ''; position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px; border: 3px dashed #ffcc00; pointer-events: none; border-radius: 4px; }
 
-        .text-wrapper { display: inline-block; transform-origin: center; }
-        .text-content { font-size: 80px; font-weight: bold; font-family: 'Impact', sans-serif; color: #ffffff; white-space: pre-wrap; word-break: keep-all; padding: 5px 10px; outline: none; line-height: 1.1; text-align: left;}
+        .text-wrapper { display: inline-block; transform-origin: center; box-sizing: border-box; }
+        .text-content { font-size: 80px; font-weight: 900; font-family: 'Lexend', sans-serif; color: #ffffff; white-space: pre-wrap; word-break: keep-all; padding: 5px 10px; outline: none; line-height: 1.1; text-align: left; -webkit-font-smoothing: antialiased; }
         .image-element { width: 200px; height: auto; }
 
         /* Şablon Izgarası */
-        .template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+        .template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
     </style>
 </head>
 <body>
 
     <div id="sidebar">
-        <h2>Thumbnail Pro v2</h2>
+        <h2>Cenk Hoca Pro v3</h2>
         
         <button class="btn-download" onclick="downloadThumbnail()">📥 Tasarımı İndir (PNG)</button>
 
         <div class="panel-section">
-            <div class="section-title">Temel Katmanlar</div>
-            <label>Arka Plan Seç</label>
+            <div class="section-title">Arka Plan</div>
             <input type="file" id="upload-bg" accept="image/*">
         </div>
 
         <div class="panel-section">
-            <div class="section-title">Hazır Şablonlar</div>
+            <div class="section-title">Estetik Şablonlar</div>
             <div class="template-grid">
-                <button class="btn-template" onclick="applyTemplate(1)">Şablon 1 (Klasik)</button>
-                <button class="btn-template" onclick="applyTemplate(2)">Şablon 2 (Kutulu)</button>
-                <button class="btn-template" onclick="applyTemplate(3)">Şablon 3 (Eğik)</button>
-                <button class="btn-template" onclick="applyTemplate(4)">Şablon 4 (Mavi)</button>
-                <button class="btn-template" onclick="applyTemplate(5)">Şablon 5 (Geniş)</button>
-                <button class="btn-template" onclick="applyTemplate(6)">Şablon 6 (Ortalı)</button>
-                <button class="btn-template" onclick="applyTemplate(7)">Şablon 7 (Neon)</button>
-                <button class="btn-template" onclick="applyTemplate(8)">Şablon 8 (Altın)</button>
-                <button class="btn-template" onclick="applyTemplate(9)">Şablon 9 (Kırmızı)</button>
-                <button class="btn-template" onclick="applyTemplate(10)">Şablon 10 (Sade)</button>
+                <button class="btn-template" onclick="applyTemplate(1)">Şablon 1 (Fire)</button>
+                <button class="btn-template" onclick="applyTemplate(2)">Şablon 2 (Ice)</button>
+                <button class="btn-template" onclick="applyTemplate(3)">Şablon 3 (Neon)</button>
+                <button class="btn-template" onclick="applyTemplate(4)">Şablon 4 (Aqua)</button>
+                <button class="btn-template" onclick="applyTemplate(5)">Şablon 5 (Amber)</button>
+                <button class="btn-template" onclick="applyTemplate(6)">Şablon 6 (Sleek)</button>
+                <button class="btn-template" onclick="applyTemplate(7)">Şablon 7 (Vibe)</button>
+                <button class="btn-template" onclick="applyTemplate(8)">Şablon 8 (Gold)</button>
+                <button class="btn-template" onclick="applyTemplate(9)">Şablon 9 (Danger)</button>
+                <button class="btn-template" onclick="applyTemplate(10)">Şablon 10 (Minimal)</button>
             </div>
-            <button class="btn-danger" style="margin-top:5px;" onclick="clearAllTexts()">Tüm Yazıları Temizle</button>
+            <button class="btn-danger" style="margin-top:2px;" onclick="clearAllTexts()">Tüm Yazıları Sil</button>
         </div>
 
-        <button class="btn-add" onclick="addText('YENİ METİN')">+ YENİ BAĞIMSIZ YAZI EKLE</button>
+        <button class="btn-add" onclick="addText('YENİ METİN')">+ BAĞIMSIZ YAZI</button>
 
-        <!-- DÜZENLEME PANELİ -->
-        <div id="edit-controls" style="display: none; flex-direction: column; gap: 10px;">
-            <hr style="border-color: #40405a; width: 100%;">
-            <div class="section-title" style="text-align:center;">Seçili Öğeyi Düzenle</div>
+        <div id="edit-controls" style="display: none; flex-direction: column; gap: 8px;">
+            <hr style="border-color: #353545; width: 100%; margin: 2px 0;">
             
-            <!-- Resim Düzenleme -->
-            <div id="image-controls" class="panel-section" style="display: none;">
-                <div class="control-row">
-                    <label>Boyut:</label>
-                    <input type="range" id="image-size" min="50" max="1000" oninput="updateElement()">
-                </div>
-            </div>
-
-            <!-- Metin Düzenleme -->
             <div id="text-controls" style="display: none; flex-direction: column; gap: 8px;">
                 
                 <div class="panel-section">
-                    <div class="section-title">Yazı Tipi & Boyut</div>
+                    <div class="section-title">Estetik Tipografi</div>
                     <select id="text-font" onchange="updateElement()">
-                        <option value="Impact">Impact (Klasik)</option>
-                        <option value="'Anton', sans-serif">Anton</option>
-                        <option value="'Bebas Neue', sans-serif">Bebas Neue</option>
-                        <option value="'Oswald', sans-serif">Oswald</option>
-                        <option value="'Montserrat', sans-serif">Montserrat (Kalın)</option>
-                        <option value="Arial Black">Arial Black</option>
+                        <option value="'Inter', sans-serif">Inter (Modern Clean)</option>
+                        <option value="'Lexend', sans-serif">Lexend (YouTube Pro)</option>
+                        <option value="'Unbounded', sans-serif">Unbounded (Ultra Kalın)</option>
+                        <option value="'Righteous', cursive">Righteous (Stylized)</option>
+                        <option value="'Titan One', cursive">Titan One (Cute/Bold)</option>
+                        <option value="'Poppins', sans-serif">Poppins (Geometric)</option>
                     </select>
-                    <div class="control-row">
-                        <label>Boyut:</label>
-                        <input type="range" id="text-size" min="20" max="300" oninput="updateElement()">
-                    </div>
-                    <div class="control-row">
-                        <label>Satır Aralığı:</label>
-                        <input type="range" id="text-line-height" min="0.5" max="2" step="0.1" value="1.1" oninput="updateElement()">
-                    </div>
-                    <div class="control-row">
-                        <label>Hizalama:</label>
-                        <select id="text-align" onchange="updateElement()">
-                            <option value="left">Sola</option>
-                            <option value="center">Ortaya</option>
-                            <option value="right">Sağa</option>
-                        </select>
-                    </div>
+                    <div class="control-row"><label>Boyut:</label><input type="range" id="text-size" min="20" max="300" oninput="updateElement()"></div>
+                    <div class="control-row"><label>Harf Arası:</label><input type="range" id="text-spacing" min="-10" max="50" step="1" value="0" oninput="updateElement()"></div>
                 </div>
 
                 <div class="panel-section">
-                    <div class="section-title">Renk & Degrade</div>
+                    <div class="section-title">Renk & Estetik Efektler</div>
                     <select id="color-type" onchange="toggleColorType(); updateElement()">
                         <option value="solid">Tek Renk</option>
-                        <option value="gradient">Degrade (İki Renk)</option>
+                        <option value="gradient">Pro Degrade</option>
                     </select>
                     <div class="control-row">
                         <label>Renk 1:</label><input type="color" id="color-1" value="#ffffff" oninput="updateElement()">
-                    </div>
-                    <div class="control-row" id="color-2-row" style="display: none;">
-                        <label>Renk 2:</label><input type="color" id="color-2" value="#ffcc00" oninput="updateElement()">
+                        <label id="color-2-label" style="display:none">Renk 2:</label><input type="color" id="color-2" value="#ffcc00" style="display:none" oninput="updateElement()">
                     </div>
                     <div class="control-row" id="gradient-angle-row" style="display: none;">
                         <label>Açı:</label><input type="range" id="gradient-angle" min="0" max="360" value="180" oninput="updateElement()">
                     </div>
-                </div>
-
-                <div class="panel-section">
-                    <div class="section-title">Dış Çizgi & Gölge</div>
                     <div class="control-row">
-                        <label>Çizgi Kalınlığı:</label><input type="range" id="stroke-width" min="0" max="25" value="4" oninput="updateElement()">
+                        <label>Çizgi Kalınlık:</label><input type="range" id="stroke-width" min="0" max="30" value="6" oninput="updateElement()">
                         <input type="color" id="stroke-color" value="#000000" oninput="updateElement()">
                     </div>
-                    <div class="control-row">
-                        <label>Gölge Konumu:</label>
-                        <input type="number" id="shadow-x" value="5" oninput="updateElement()">
-                        <input type="number" id="shadow-y" value="5" oninput="updateElement()">
-                    </div>
-                    <div class="control-row">
-                        <label>Gölge Bulanıklığı:</label><input type="range" id="shadow-blur" min="0" max="50" value="0" oninput="updateElement()">
-                        <input type="color" id="shadow-color" value="#000000" oninput="updateElement()">
-                    </div>
                 </div>
 
                 <div class="panel-section">
-                    <div class="section-title">Şekillendirme (Sündürme & Eğme)</div>
-                    <div class="control-row"><label>Yatay Uzat:</label><input type="range" id="scale-x" min="0.5" max="3" step="0.1" value="1" oninput="updateElement()"></div>
-                    <div class="control-row"><label>Dikey Uzat:</label><input type="range" id="scale-y" min="0.5" max="3" step="0.1" value="1" oninput="updateElement()"></div>
-                    <div class="control-row"><label>Sağa/Sola Eğ (Skew X):</label><input type="range" id="skew-x" min="-45" max="45" value="0" oninput="updateElement()"></div>
-                    <div class="control-row"><label>Aşağı/Yukarı Eğ (Skew Y):</label><input type="range" id="skew-y" min="-45" max="45" value="0" oninput="updateElement()"></div>
-                    <div class="control-row"><label>Döndür:</label><input type="range" id="rotate" min="-180" max="180" value="0" oninput="updateElement()"></div>
-                </div>
-
-                <div class="panel-section">
-                    <div class="section-title">Arka Plan Kutusu</div>
+                    <div class="section-title">Kutu & Ovallik</div>
                     <div class="control-row">
                         <label>Kutu Aktif:</label><input type="checkbox" id="bg-enable" onchange="updateElement()">
-                        <input type="color" id="bg-color" value="#ff0000" oninput="updateElement()">
+                        <input type="color" id="bg-color" value="#cc0000" oninput="updateElement()">
+                    </div>
+                    <div class="control-row" id="bg-radius-row" style="display: none;">
+                        <label>Köşe Ovalliği:</label><input type="range" id="bg-radius" min="0" max="100" value="15" oninput="updateElement()">
                     </div>
                 </div>
+
+                <div class="panel-section">
+                    <div class="section-title">Sündürme & Eğme (Skew)</div>
+                    <div class="control-row"><label>Yatay Sündür:</label><input type="range" id="scale-x" min="0.5" max="3" step="0.05" value="1" oninput="updateElement()"></div>
+                    <div class="control-row"><label>Dikey Sündür:</label><input type="range" id="scale-y" min="0.5" max="3" step="0.05" value="1" oninput="updateElement()"></div>
+                    <div class="control-row"><label>Sağa Eğ (Skew X):</label><input type="range" id="skew-x" min="-45" max="45" value="0" oninput="updateElement()"></div>
+                    <div class="control-row"><label>Aşağı Eğ (Skew Y):</label><input type="range" id="skew-y" min="-45" max="45" value="0" oninput="updateElement()"></div>
+                </div>
+
             </div>
 
             <button class="btn-danger" onclick="deleteActiveElement()">🗑️ Seçili Öğeyi Sil</button>
@@ -203,29 +163,25 @@
         // Dinamik Ay Hesaplama
         const aylar = ["OCAK", "ŞUBAT", "MART", "NİSAN", "MAYIS", "HAZİRAN", "TEMMUZ", "AĞUSTOS", "EYLÜL", "EKİM", "KASIM", "ARALIK"];
         const d = new Date();
-        const mevcutAy = aylar[d.getMonth()];
-        const sonrakiAy = aylar[(d.getMonth() + 1) % 12];
-        const dinamikAyMetni = `${mevcutAy} - ${sonrakiAy}`;
+        const dinamikAyMetni = `${aylar[d.getMonth()]} - ${aylar[(d.getMonth() + 1) % 12]}`;
 
-        // Ekran Ölçekleme
+        // Ölçekleme
         function scaleWorkspace() {
             const container = document.getElementById('workspace-container');
             const scale = Math.min((container.clientWidth - 40) / 1280, (container.clientHeight - 40) / 720);
             workspace.style.transform = `scale(${scale})`;
         }
-        window.addEventListener('resize', scaleWorkspace);
-        scaleWorkspace();
+        window.addEventListener('resize', scaleWorkspace); scaleWorkspace();
 
         // Resim Yükleme
-        document.getElementById('upload-bg').addEventListener('change', function(e) {
+        document.getElementById('upload-bg').addEventListener('change', e => {
             if (e.target.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(event) { document.getElementById('bg-image').src = event.target.result; }
+                const reader = new FileReader(); reader.onload = ev => document.getElementById('bg-image').src = ev.target.result;
                 reader.readAsDataURL(e.target.files[0]);
             }
         });
 
-        // Tıklanan Yere Yeni Metin Ekleme Motoru
+        // Metin Ekleme Motoru
         function addText(textValue, config = {}) {
             const dragContainer = document.createElement('div');
             dragContainer.className = 'draggable text-container';
@@ -241,30 +197,25 @@
             textContent.innerText = textValue;
             textContent.spellcheck = false;
 
-            // Varsayılan veya Şablondan Gelen Veriler
+            // Veriler
             const dt = dragContainer.dataset;
             dt.type = 'text';
-            dt.font = config.font || 'Impact';
+            dt.font = config.font || "'Lexend', sans-serif";
             dt.size = config.size || '70';
-            dt.lineHeight = config.lineHeight || '1.1';
-            dt.textAlign = config.textAlign || 'left';
+            dt.spacing = config.spacing || '0';
             dt.colorType = config.colorType || 'solid';
             dt.color1 = config.color1 || '#ffffff';
             dt.color2 = config.color2 || '#ffcc00';
             dt.angle = config.angle || '180';
-            dt.strokeW = config.strokeW !== undefined ? config.strokeW : '5';
+            dt.strokeW = config.strokeW !== undefined ? config.strokeW : '6';
             dt.strokeC = config.strokeC || '#000000';
-            dt.shadowX = config.shadowX !== undefined ? config.shadowX : '6';
-            dt.shadowY = config.shadowY !== undefined ? config.shadowY : '6';
-            dt.shadowB = config.shadowB || '0';
-            dt.shadowC = config.shadowC || '#000000';
             dt.scaleX = config.scaleX || '1';
             dt.scaleY = config.scaleY || '1';
             dt.skewX = config.skewX || '0';
             dt.skewY = config.skewY || '0';
-            dt.rotate = config.rotate || '0';
             dt.bgEnable = config.bgEnable || 'false';
             dt.bgColor = config.bgColor || '#cc0000';
+            dt.bgRadius = config.bgRadius || '15'; // Varsayılan ovallik
 
             textWrapper.appendChild(textContent);
             dragContainer.appendChild(textWrapper);
@@ -274,140 +225,126 @@
             applyTextStyles(dragContainer);
             setActiveElement(dragContainer);
 
-            textContent.addEventListener('dblclick', function(e) {
-                textContent.focus();
-                document.execCommand('selectAll', false, null);
-            });
+            textContent.addEventListener('dblclick', e => { textContent.focus(); document.execCommand('selectAll', false, null); });
         }
 
-        // --- ŞABLON SİSTEMİ ---
-        function clearAllTexts() {
-            document.querySelectorAll('.text-container').forEach(e => e.remove());
-            removeActiveElement();
-        }
+        // --- ŞABLON SİSTEMİ (Estetik Revize) ---
+        function clearAllTexts() { document.querySelectorAll('.text-container').forEach(e => e.remove()); removeActiveElement(); }
 
         function applyTemplate(id) {
             clearAllTexts();
-            const commonTxt1 = "Ehliyet Sınav\nSoruları 2026";
-            const commonTxt2 = "Banko 50 Soru";
-            const commonTxt3 = "Detaylı Anlatım";
+            const txtSors = "Ehliyet Sınav\nSoruları 2026";
+            const txtAy = dinamikAyMetni;
+            const txtBanko = "Banko 50 Soru";
+            const txtDetay = "Detaylı Anlatım";
+
+            const fonts = { L: "'Lexend', sans-serif", U: "'Unbounded', sans-serif", R: "'Righteous', cursive", T: "'Titan One', cursive", I: "'Inter', sans-serif" };
 
             const tpls = {
-                // 1. Klasik Sol Blok (Gönderdiğiniz 1. Resme Benzer)
+                // 1. Fire (Sarı-Kırmızı Ateş)
                 1: [
-                    { text: commonTxt1, top: "40px", left: "40px", size: "85", color1: "#ffffff", strokeW: "6" },
-                    { text: dinamikAyMetni, top: "250px", left: "40px", size: "170", colorType: "gradient", color1: "#ffcc00", color2: "#ff5500", strokeW: "8", scaleY: "1.2" },
-                    { text: commonTxt2, top: "480px", left: "40px", size: "80", color1: "#ffcc00", strokeW: "6" },
-                    { text: commonTxt3, top: "580px", left: "40px", size: "80", color1: "#ffffff", strokeW: "6" }
+                    { text: txtSors, top: "30px", left: "40px", size: "85", font: fonts.L, color1: "#ffffff", strokeW: "8" },
+                    { text: txtAy, top: "240px", left: "30px", size: "180", font: fonts.U, colorType: "gradient", color1: "#ffdd00", color2: "#ff3300", strokeW: "12", scaleY: "1.2" },
+                    { text: txtBanko, top: "480px", left: "40px", size: "85", font: fonts.L, color1: "#ffcc00", strokeW: "8" },
+                    { text: txtDetay, top: "580px", left: "40px", size: "85", font: fonts.L, color1: "#ffffff", strokeW: "8" }
                 ],
-                // 2. Kutulu Ay (Gönderdiğiniz 3. Resme Benzer)
+                // 2. Ice (Mavi-Cyan)
                 2: [
-                    { text: "EHLİYET SINAV\nSORULARI 2026", top: "50px", left: "50px", size: "85", color1: "#ffcc00", strokeW: "6" },
-                    { text: dinamikAyMetni, top: "270px", left: "50px", size: "120", color1: "#ffffff", bgEnable: "true", bgColor: "#cc0000", strokeW: "0" },
-                    { text: commonTxt2, top: "470px", left: "50px", size: "80", color1: "#ffcc00", strokeW: "6" },
-                    { text: commonTxt3, top: "570px", left: "50px", size: "80", color1: "#ffffff", strokeW: "6" }
+                    { text: txtSors, top: "30px", left: "40px", size: "85", font: fonts.L, color1: "#ffffff", strokeW: "8" },
+                    { text: txtAy, top: "240px", left: "40px", size: "160", font: fonts.U, colorType: "gradient", color1: "#00ffff", color2: "#0099ff", strokeW: "12", skewX: "-5" },
+                    { text: txtBanko + "\n" + txtDetay, top: "460px", left: "40px", size: "80", font: fonts.L, color1: "#ffffff", strokeW: "8" }
                 ],
-                // 3. İleri Eğik (Dinamik Hız Hissi)
+                // 3. Neon (Pro Kutulu ve Oval)
                 3: [
-                    { text: commonTxt1, top: "40px", left: "60px", size: "85", color1: "#ffffff", skewX: "-10" },
-                    { text: dinamikAyMetni, top: "250px", left: "40px", size: "160", colorType: "gradient", color1: "#00ffcc", color2: "#0066ff", skewX: "-10", strokeW: "8" },
-                    { text: commonTxt2, top: "480px", left: "30px", size: "80", color1: "#ffcc00", skewX: "-10" },
-                    { text: commonTxt3, top: "580px", left: "20px", size: "80", color1: "#ffffff", skewX: "-10" }
+                    { text: "EHLİYET SINAV\nSORULARI 2026", top: "50px", left: "50px", size: "80", font: fonts.I, color1: "#ffcc00", strokeW: "6" },
+                    { text: txtAy, top: "260px", left: "50px", size: "130", font: fonts.L, color1: "#ffffff", bgEnable: "true", bgColor: "#7722ff", bgRadius: "100", strokeW: "0" },
+                    { text: txtBanko, top: "460px", left: "50px", size: "85", font: fonts.I, color1: "#ffcc00", strokeW: "7" },
+                    { text: txtDetay, top: "560px", left: "50px", size: "85", font: fonts.I, color1: "#ffffff", strokeW: "7" }
                 ],
-                // 4. Mavi / Altın Tarz (Gönderdiğiniz 4. Resme Benzer)
+                // 4. Aqua (Sleek Blue Gradient)
                 4: [
-                    { text: "EHLİYET SINAV\nSORULARI 2026", top: "40px", left: "40px", size: "80", color1: "#ffcc00", strokeW: "5" },
-                    { text: dinamikAyMetni, top: "240px", left: "40px", size: "150", colorType: "gradient", color1: "#aaccff", color2: "#0044aa", strokeW: "7", strokeC: "#ffffff", shadowC: "#002255", shadowX: "8", shadowY: "8" },
-                    { text: commonTxt2, top: "480px", left: "40px", size: "80", color1: "#ffcc00", strokeW: "6" },
-                    { text: commonTxt3, top: "580px", left: "40px", size: "80", color1: "#ffffff", strokeW: "6" }
+                    { text: txtSors, top: "30px", left: "40px", size: "85", font: fonts.L, colorType: "gradient", color1: "#aaccff", color2: "#ffffff" },
+                    { text: txtAy, top: "240px", left: "40px", size: "170", font: fonts.U, colorType: "gradient", color1: "#00ffff", color2: "#0044aa", strokeW: "10", scaleX: "1.1" },
+                    { text: txtBanko, top: "480px", left: "40px", size: "80", font: fonts.L, color1: "#ffcc00" },
+                    { text: txtDetay, top: "580px", left: "40px", size: "80", font: fonts.L, color1: "#ffffff" }
                 ],
-                // 5. Geniş Yayılan Metin
+                // 5. Amber (Vibrant Orange/Yellow)
                 5: [
-                    { text: "EHLİYET SINAV SORULARI", top: "30px", left: "40px", size: "65", color1: "#ffffff", scaleX: "1.2" },
-                    { text: "2026 " + dinamikAyMetni, top: "150px", left: "40px", size: "130", colorType: "gradient", color1: "#ffdd00", color2: "#ff0000", scaleX: "1.1", strokeW: "8" },
-                    { text: commonTxt2, top: "500px", left: "40px", size: "80", color1: "#ffcc00" },
-                    { text: commonTxt3, top: "600px", left: "40px", size: "80", color1: "#ffffff" }
+                    { text: "2026", top: "20px", left: "40px", size: "60", font: fonts.U, color1: "#ffffff", strokeW: "5" },
+                    { text: "EHLİYET SINAV SORULARI", top: "100px", left: "40px", size: "60", font: fonts.I, color1: "#ffffff", strokeW: "5" },
+                    { text: txtAy, top: "200px", left: "30px", size: "190", font: fonts.U, colorType: "gradient", color1: "#ff9900", color2: "#ffcc00", strokeW: "12", scaleY: "1.1" },
+                    { text: txtBanko, top: "480px", left: "40px", size: "80", font: fonts.I, color1: "#ffcc00" },
+                    { text: txtDetay, top: "580px", left: "40px", size: "80", font: fonts.I, color1: "#ffffff" }
                 ],
-                // 6. Ortalı Blok
+                // 6. Sleek (Clean Modernsol Blok)
                 6: [
-                    { text: commonTxt1, top: "40px", left: "350px", size: "80", color1: "#ffffff", textAlign: "center" },
-                    { text: dinamikAyMetni, top: "250px", left: "280px", size: "150", colorType: "gradient", color1: "#ffcc00", color2: "#ff5500", textAlign: "center", strokeW: "8" },
-                    { text: "BANKO 50 SORU\nDETAYLI ANLATIM", top: "480px", left: "350px", size: "80", color1: "#ffcc00", textAlign: "center" }
+                    { text: txtSors, top: "40px", left: "40px", size: "80", font: fonts.I, color1: "#ffffff", strokeW: "6" },
+                    { text: txtAy, top: "240px", left: "40px", size: "130", font: fonts.L, colorType: "gradient", color1: "#ffffff", color2: "#ffcc00", strokeW: "8" },
+                    { text: txtBanko, top: "430px", left: "40px", size: "70", font: fonts.I, color1: "#ffcc00" },
+                    { text: txtDetay, top: "520px", left: "40px", size: "70", font: fonts.I, color1: "#ffffff" }
                 ],
-                // 7. Neon (Parlayan Gölgeler)
+                // 7. Vibe (Righteous Cursive Modern)
                 7: [
-                    { text: commonTxt1, top: "40px", left: "40px", size: "85", color1: "#ffffff", strokeW: "2", shadowC: "#00aaff", shadowX: "0", shadowY: "0", shadowB: "15" },
-                    { text: dinamikAyMetni, top: "250px", left: "40px", size: "160", color1: "#ffffff", strokeW: "2", shadowC: "#ff0055", shadowX: "0", shadowY: "0", shadowB: "20" },
-                    { text: commonTxt2 + "\n" + commonTxt3, top: "480px", left: "40px", size: "75", color1: "#ffffff", strokeW: "2", shadowC: "#00ffaa", shadowX: "0", shadowY: "0", shadowB: "15" }
+                    { text: txtSors, top: "40px", left: "40px", size: "85", font: fonts.R, color1: "#ffffff", strokeW: "7" },
+                    { text: txtAy, top: "250px", left: "40px", size: "160", font: fonts.R, colorType: "gradient", color1: "#00ffcc", color2: "#aa33ff", strokeW: "10", skewX: "-8" },
+                    { text: txtBanko + " & " + txtDetay, top: "480px", left: "40px", size: "70", font: fonts.R, color1: "#ffcc00" }
                 ],
-                // 8. Saf Altın
+                // 8. Gold Amber (Premium Look)
                 8: [
-                    { text: commonTxt1, top: "40px", left: "40px", size: "85", colorType: "gradient", color1: "#ffdf00", color2: "#aa7700" },
-                    { text: dinamikAyMetni, top: "250px", left: "40px", size: "170", colorType: "gradient", color1: "#ffdf00", color2: "#d4af37", strokeW: "8" },
-                    { text: commonTxt2 + "\n" + commonTxt3, top: "480px", left: "40px", size: "80", colorType: "gradient", color1: "#ffdf00", color2: "#aa7700" }
+                    { text: txtSors, top: "40px", left: "40px", size: "85", font: fonts.L,colorType: "gradient", color1: "#ffdf00", color2: "#aa7700" },
+                    { text: txtAy, top: "250px", left: "40px", size: "170", font: fonts.U, colorType: "gradient", color1: "#ffdf00", color2: "#d4af37", strokeW: "12" },
+                    { text: txtBanko + "\n" + txtDetay, top: "480px", left: "40px", size: "80", font: fonts.L, colorType: "gradient", color1: "#ffdf00", color2: "#aa7700" }
                 ],
-                // 9. Tamamı Kırmızı Beyaz (Dikkat Çekici)
+                // 9. Danger (Vibrant Red)
                 9: [
-                    { text: commonTxt1, top: "40px", left: "40px", size: "90", color1: "#ffffff", bgEnable: "true", bgColor: "#dd0000", strokeW: "0" },
-                    { text: dinamikAyMetni, top: "250px", left: "40px", size: "160", color1: "#dd0000", strokeW: "8", strokeC: "#ffffff" },
-                    { text: commonTxt2, top: "480px", left: "40px", size: "80", color1: "#ffffff", bgEnable: "true", bgColor: "#dd0000", strokeW: "0" },
-                    { text: commonTxt3, top: "580px", left: "40px", size: "80", color1: "#ffffff", strokeW: "6" }
+                    { text: txtSors, top: "40px", left: "40px", size: "90", font: fonts.U, color1: "#ffffff", strokeW: "8" },
+                    { text: txtAy, top: "250px", left: "40px", size: "150", font: fonts.L, color1: "#ffffff", bgEnable: "true", bgColor: "#cc0000", bgRadius: "20" },
+                    { text: txtBanko, top: "480px", left: "40px", size: "80", font: fonts.U, color1: "#ffffff" },
+                    { text: txtDetay, top: "580px", left: "40px", size: "80", font: fonts.L, color1: "#ffffff" }
                 ],
-                // 10. Sade ve Büyük
+                // 10. Minimal (Poppisn Clean ortalı)
                 10: [
-                    { text: "EHLİYET SINAV SORULARI", top: "50px", left: "40px", size: "70", color1: "#ffffff" },
-                    { text: dinamikAyMetni, top: "160px", left: "40px", size: "180", color1: "#ffcc00", strokeW: "10" },
-                    { text: "BANKO 50 SORU\nDETAYLI ANLATIM", top: "450px", left: "40px", size: "90", color1: "#ffffff", lineHeight: "1.2" }
+                    { text: "EHLİYET SINAV SORULARI 2026", top: "50px", left: "300px", size: "60", font: fonts.I, color1: "#ffffff", textAlign: "center" },
+                    { text: txtAy, top: "180px", left: "300px", size: "180", font: fonts.U, color1: "#ffcc00", strokeW: "15", textAlign: "center" },
+                    { text: "BANKO 50 SORU & DETAYLI ANLATIM", top: "480px", left: "300px", size: "70", font: fonts.I, color1: "#ffffff", textAlign: "center" }
                 ]
             };
 
-            if(tpls[id]) {
-                tpls[id].forEach(conf => addText(conf.text, conf));
-            }
+            if(tpls[id]) tpls[id].forEach(conf => addText(conf.text, conf));
         }
 
         function toggleColorType() {
             const type = document.getElementById('color-type').value;
-            document.getElementById('color-2-row').style.display = (type === 'gradient') ? 'flex' : 'none';
-            document.getElementById('gradient-angle-row').style.display = (type === 'gradient') ? 'flex' : 'none';
+            const colors = ['#color-2-label', '#color-2', '#gradient-angle-row'];
+            colors.forEach(sel => document.querySelector(sel).style.display = (type === 'gradient') ? 'flex' : 'none');
         }
 
         // Sürükleme Mantığı
         function makeDraggable(element) {
             if(!element.dataset.type && element.tagName === 'IMG') element.dataset.type = 'image';
-
             element.addEventListener('mousedown', function(e) {
                 if (e.target.isContentEditable && document.activeElement === e.target) return;
                 setActiveElement(element);
                 isDragging = true;
-                
                 const transformMatrix = window.getComputedStyle(workspace).transform;
-                let scale = 1;
-                if (transformMatrix !== 'none') scale = parseFloat(transformMatrix.split('(')[1].split(',')[0]);
-
+                let scale = 1; if (transformMatrix !== 'none') scale = parseFloat(transformMatrix.split('(')[1].split(',')[0]);
                 const rect = element.getBoundingClientRect();
-                offsetX = (e.clientX - rect.left) / scale;
-                offsetY = (e.clientY - rect.top) / scale;
+                offsetX = (e.clientX - rect.left) / scale; offsetY = (e.clientY - rect.top) / scale;
                 e.stopPropagation();
             });
         }
 
-        document.addEventListener('mousemove', function(e) {
+        document.addEventListener('mousemove', e => {
             if (isDragging && activeElement) {
                 const transformMatrix = window.getComputedStyle(workspace).transform;
-                let scale = 1;
-                if (transformMatrix !== 'none') scale = parseFloat(transformMatrix.split('(')[1].split(',')[0]);
+                let scale = 1; if (transformMatrix !== 'none') scale = parseFloat(transformMatrix.split('(')[1].split(',')[0]);
                 const rect = workspace.getBoundingClientRect();
-                
                 activeElement.style.left = ((e.clientX - rect.left) / scale - offsetX) + 'px';
                 activeElement.style.top = ((e.clientY - rect.top) / scale - offsetY) + 'px';
             }
         });
-
-        document.addEventListener('mouseup', function() { isDragging = false; });
-        workspace.addEventListener('mousedown', function(e) {
-            if (e.target === workspace || e.target.id === 'bg-image') removeActiveElement();
-        });
+        document.addEventListener('mouseup', () => isDragging = false);
+        workspace.addEventListener('mousedown', e => { if (e.target === workspace || e.target.id === 'bg-image') removeActiveElement(); });
 
         // Panel Doldurma
         function setActiveElement(element) {
@@ -423,26 +360,23 @@
                 const d = element.dataset;
                 document.getElementById('text-font').value = d.font;
                 document.getElementById('text-size').value = d.size;
-                document.getElementById('text-line-height').value = d.lineHeight;
-                document.getElementById('text-align').value = d.textAlign;
+                document.getElementById('text-spacing').value = d.spacing;
                 document.getElementById('color-type').value = d.colorType;
                 document.getElementById('color-1').value = d.color1;
                 document.getElementById('color-2').value = d.color2;
                 document.getElementById('gradient-angle').value = d.angle;
                 document.getElementById('stroke-width').value = d.strokeW;
                 document.getElementById('stroke-color').value = d.strokeC;
-                document.getElementById('shadow-x').value = d.shadowX;
-                document.getElementById('shadow-y').value = d.shadowY;
-                document.getElementById('shadow-blur').value = d.shadowB;
-                document.getElementById('shadow-color').value = d.shadowC;
                 document.getElementById('scale-x').value = d.scaleX;
                 document.getElementById('scale-y').value = d.scaleY;
                 document.getElementById('skew-x').value = d.skewX;
                 document.getElementById('skew-y').value = d.skewY;
-                document.getElementById('rotate').value = d.rotate;
                 document.getElementById('bg-enable').checked = (d.bgEnable === 'true');
                 document.getElementById('bg-color').value = d.bgColor;
+                document.getElementById('bg-radius').value = d.bgRadius;
                 toggleColorType();
+                // Kutu ovallik kaydırıcısını göster/gizle
+                document.getElementById('bg-radius-row').style.display = (d.bgEnable === 'true') ? 'flex' : 'none';
             } else {
                 document.getElementById('text-controls').style.display = 'none';
                 document.getElementById('image-controls').style.display = 'flex';
@@ -450,99 +384,57 @@
             }
         }
 
-        function removeActiveElement() {
-            document.querySelectorAll('.draggable').forEach(el => el.classList.remove('active'));
-            activeElement = null;
-            document.getElementById('edit-controls').style.display = 'none';
-        }
+        function removeActiveElement() { document.querySelectorAll('.draggable').forEach(el => el.classList.remove('active')); activeElement = null; document.getElementById('edit-controls').style.display = 'none'; }
 
         // Değişiklikleri Uygulama
         function updateElement() {
             if (!activeElement) return;
-
             if (activeElement.dataset.type === 'text') {
                 const d = activeElement.dataset;
                 d.font = document.getElementById('text-font').value;
                 d.size = document.getElementById('text-size').value;
-                d.lineHeight = document.getElementById('text-line-height').value;
-                d.textAlign = document.getElementById('text-align').value;
+                d.spacing = document.getElementById('text-spacing').value;
                 d.colorType = document.getElementById('color-type').value;
                 d.color1 = document.getElementById('color-1').value;
                 d.color2 = document.getElementById('color-2').value;
                 d.angle = document.getElementById('gradient-angle').value;
                 d.strokeW = document.getElementById('stroke-width').value;
                 d.strokeC = document.getElementById('stroke-color').value;
-                d.shadowX = document.getElementById('shadow-x').value;
-                d.shadowY = document.getElementById('shadow-y').value;
-                d.shadowB = document.getElementById('shadow-blur').value;
-                d.shadowC = document.getElementById('shadow-color').value;
                 d.scaleX = document.getElementById('scale-x').value;
                 d.scaleY = document.getElementById('scale-y').value;
                 d.skewX = document.getElementById('skew-x').value;
                 d.skewY = document.getElementById('skew-y').value;
-                d.rotate = document.getElementById('rotate').value;
                 d.bgEnable = document.getElementById('bg-enable').checked;
                 d.bgColor = document.getElementById('bg-color').value;
-
+                d.bgRadius = document.getElementById('bg-radius').value;
                 applyTextStyles(activeElement);
-            } else {
-                activeElement.style.width = document.getElementById('image-size').value + 'px';
-            }
+                // Kutu ovallik kaydırıcısını göster/gizle
+                document.getElementById('bg-radius-row').style.display = (d.bgEnable === 'true') ? 'flex' : 'none';
+            } else activeElement.style.width = document.getElementById('image-size').value + 'px';
         }
 
         function applyTextStyles(element) {
             const d = element.dataset;
             const wrapper = element.querySelector('.text-wrapper');
             const content = element.querySelector('.text-content');
-
-            content.style.fontFamily = d.font;
-            content.style.fontSize = d.size + 'px';
-            content.style.lineHeight = d.lineHeight;
-            content.style.textAlign = d.textAlign;
+            content.style.fontFamily = d.font; content.style.fontSize = d.size + 'px'; content.style.letterSpacing = d.spacing + 'px';
             content.style.webkitTextStroke = `${d.strokeW}px ${d.strokeC}`;
-            
-            if (d.colorType === 'solid') {
-                content.style.background = 'none';
-                content.style.webkitBackgroundClip = 'unset';
-                content.style.webkitTextFillColor = 'unset';
-                content.style.color = d.color1;
-            } else {
-                content.style.background = `linear-gradient(${d.angle}deg, ${d.color1}, ${d.color2})`;
-                content.style.webkitBackgroundClip = 'text';
-                content.style.webkitTextFillColor = 'transparent';
-                content.style.color = 'transparent';
-            }
-
-            content.style.filter = `drop-shadow(${d.shadowX}px ${d.shadowY}px ${d.shadowB}px ${d.shadowC})`;
-
-            // Sündürme, Eğme ve Döndürme Matrixi
-            wrapper.style.transform = `scaleX(${d.scaleX}) scaleY(${d.scaleY}) skewX(${d.skewX}deg) skewY(${d.skewY}deg) rotate(${d.rotate}deg)`;
-            
-            if (d.bgEnable === 'true') {
-                wrapper.style.backgroundColor = d.bgColor;
-                wrapper.style.padding = '5px 20px';
-            } else {
-                wrapper.style.backgroundColor = 'transparent';
-                wrapper.style.padding = '0';
-            }
+            if (d.colorType === 'solid') { content.style.background = 'none'; content.style.webkitBackgroundClip = 'unset'; content.style.webkitTextFillColor = 'unset'; content.style.color = d.color1;
+            } else { content.style.background = `linear-gradient(${d.angle}deg, ${d.color1}, ${d.color2})`; content.style.webkitBackgroundClip = 'text'; content.style.webkitTextFillColor = 'transparent'; content.style.color = 'transparent'; }
+            content.style.filter = `drop-shadow(${parseInt(d.strokeW)/2}px ${parseInt(d.strokeW)/2}px 0px ${d.strokeC})`; // Estetik DropShadow
+            wrapper.style.transform = `scaleX(${d.scaleX}) scaleY(${d.scaleY}) skewX(${d.skewX}deg) skewY(${d.skewY}deg)`;
+            if (d.bgEnable === 'true') { wrapper.style.backgroundColor = d.bgColor; wrapper.style.padding = '5px 25px'; wrapper.style.borderRadius = d.bgRadius + 'px'; // YENİ: Ovallik Uygula
+            } else { wrapper.style.backgroundColor = 'transparent'; wrapper.style.padding = '0'; wrapper.style.borderRadius = '0'; }
         }
 
-        function deleteActiveElement() {
-            if (activeElement) { activeElement.remove(); removeActiveElement(); }
-        }
-
+        function deleteActiveElement() { if (activeElement) { activeElement.remove(); removeActiveElement(); } }
         document.querySelectorAll('.draggable').forEach(makeDraggable);
 
         // İndirme
         function downloadThumbnail() {
-            removeActiveElement();
-            workspace.style.transform = 'scale(1)'; 
+            removeActiveElement(); workspace.style.transform = 'scale(1)'; 
             html2canvas(workspace, { scale: 1, useCORS: true, backgroundColor: null, logging: false }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `CenkHoca_Thumbnail_${dinamikAyMetni}.png`;
-                link.href = canvas.toDataURL("image/png");
-                link.click();
-                scaleWorkspace(); 
+                const link = document.createElement('a'); link.download = `CenkHoca_Estetik_Thumbnail.png`; link.href = canvas.toDataURL("image/png"); link.click(); scaleWorkspace(); 
             });
         }
     </script>
