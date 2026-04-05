@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ehliyet Cenk Hoca - Thumbnail Üretici</title>
+    <!-- Görüntüyü indirmek için html2canvas kütüphanesi -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e2f;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        #sidebar {
+            width: 300px;
+            background-color: #2a2a40;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            height: fit-content;
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #3f3f5a;
+        }
+        .control-group:last-child {
+            border-bottom: none;
+        }
+        label { font-size: 14px; font-weight: bold; color: #a5a5c0; }
+        input[type="file"], input[type="color"], input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+        }
+        button {
+            background-color: #ffcc00;
+            color: #1e1e2f;
+            border: none;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button:hover { background-color: #e6b800; }
+        .btn-danger { background-color: #ff4d4d; color: white; }
+        .btn-danger:hover { background-color: #cc0000; }
+        .btn-success { background-color: #00cc66; color: white; font-size: 16px; margin-top: 10px;}
+        .btn-success:hover { background-color: #00994d; }
+        
+        #workspace-container {
+            flex-grow: 1;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        /* YouTube Thumbnail Standart Boyutu 1280x720 */
+        #workspace {
+            width: 1280px;
+            height: 720px;
+            background-color: #000;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform-origin: top left;
+        }
+
+        #bg-image {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .draggable {
+            position: absolute;
+            z-index: 10;
+            cursor: move;
+            user-select: none;
+            box-sizing: border-box;
+        }
+        
+        .draggable.active {
+            outline: 3px dashed #00cc66;
+        }
+
+        .text-element {
+            font-size: 60px;
+            font-weight: bold;
+            font-family: 'Impact', sans-serif;
+            color: #ffffff;
+            text-shadow: 3px 3px 0px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            white-space: nowrap;
+            padding: 5px;
+        }
+
+        .image-element {
+            width: 200px; /* Varsayılan genişlik */
+            height: auto;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="sidebar">
+        <h2 style="margin-top: 0; color: #ffcc00;">Araç Çubuğu</h2>
+        
+        <div class="control-group">
+            <label>Arka Plan Resmi Seç</label>
+            <input type="file" id="upload-bg" accept="image/*">
+        </div>
+
+        <div class="control-group">
+            <label>Yeni Yazı Ekle</label>
+            <button onclick="addText()">+ Yazı Ekle</button>
+        </div>
+
+        <div class="control-group" id="edit-controls" style="display: none; background: #3f3f5a; padding: 10px; border-radius: 5px;">
+            <label style="color: white; margin-bottom: 5px; display: block;">Seçili Öğeyi Düzenle</label>
+            
+            <div id="text-controls">
+                <label>Renk:</label>
+                <input type="color" id="text-color" oninput="updateActiveElement()">
+                <label>Boyut:</label>
+                <input type="range" id="text-size" min="20" max="200" value="60" oninput="updateActiveElement()">
+            </div>
+            
+            <div id="image-controls" style="display: none;">
+                <label>Görsel Boyutu:</label>
+                <input type="range" id="image-size" min="50" max="800" value="200" oninput="updateActiveElement()">
+            </div>
+
+            <button class="btn-danger" style="margin-top: 10px;" onclick="deleteActiveElement()">Seçili Öğeyi Sil</button>
+        </div>
+
+        <div class="control-group">
+            <label>Avatarı Değiştir (İsteğe Bağlı)</label>
+            <input type="file" id="upload-avatar" accept="image/*">
+        </div>
+
+        <div class="control-group">
+            <label>Logoyu Değiştir (İsteğe Bağlı)</label>
+            <input type="file" id="upload-logo" accept="image/*">
+        </div>
+
+        <button class="btn-success" onclick="downloadThumbnail()">Görseli İndir (PNG)</button>
+    </div>
+
+    <div id="workspace-container">
+        <!-- Tasarım Alanı -->
+        <div id="workspace">
+            <img id="bg-image" src="" alt="">
+            
+            <!-- Varsayılan Resimler (Aynı dizinden çekilir) -->
+            <img id="avatar" src="avatar.png" class="draggable image-element" style="top: 100px; left: 800px; width: 400px;" onerror="this.style.display='none'">
+            <img id="logo" src="logo.png" class="draggable image-element" style="top: 20px; left: 1050px; width: 200px;" onerror="this.style.display='none'">
+        </div>
+    </div>
+
+    <script>
+        const workspace = document.getElementById('workspace');
+        let activeElement = null;
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        // Arka plan yükleme
+        document.getElementById('upload-bg').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('bg-image').src = event.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Avatar değiştirme
+        document.getElementById('upload-avatar').addEventListener('change', function(e) {
+            updateImageSource(e.target.files[0], 'avatar');
+        });
+
+        // Logo değiştirme
+        document.getElementById('upload-logo').addEventListener('change', function(e) {
+            updateImageSource(e.target.files[0], 'logo');
+        });
+
+        function updateImageSource(file, elementId) {
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    let img = document.getElementById(elementId);
+                    img.src = event.target.result;
+                    img.style.display = 'block'; // Eğer başta hata verip gizlendiyse tekrar göster
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Yeni metin ekleme
+        function addText() {
+            const textDiv = document.createElement('div');
+            textDiv.className = 'draggable text-element';
+            textDiv.contentEditable = "true";
+            textDiv.innerText = 'YENİ METİN';
+            textDiv.style.top = '300px';
+            textDiv.style.left = '50px';
+            
+            workspace.appendChild(textDiv);
+            makeDraggable(textDiv);
+            setActiveElement(textDiv);
+            
+            // Çift tıklanınca metin düzenlemeye odaklansın
+            textDiv.addEventListener('dblclick', function() {
+                textDiv.focus();
+            });
+        }
+
+        // Sürükle Bırak Mantığı
+        function makeDraggable(element) {
+            element.addEventListener('mousedown', function(e) {
+                if (e.target.isContentEditable && document.activeElement === e.target) {
+                    return; // Eğer metin düzenleniyorsa sürüklemeyi kapat
+                }
+                setActiveElement(element);
+                isDragging = true;
+                
+                // Fare pozisyonu ile elementin sol üst köşesi arasındaki fark
+                const rect = element.getBoundingClientRect();
+                const scale = getWorkspaceScale(); // Eğer ekran küçültülmüşse oranı al
+                offsetX = (e.clientX - rect.left) / scale;
+                offsetY = (e.clientY - rect.top) / scale;
+            });
+        }
+
+        // Ekran boyutuna göre Workspace ölçeğini hesaplama
+        function getWorkspaceScale() {
+            return workspace.getBoundingClientRect().width / workspace.offsetWidth;
+        }
+
+        document.addEventListener('mousemove', function(e) {
+            if (isDragging && activeElement) {
+                const rect = workspace.getBoundingClientRect();
+                const scale = getWorkspaceScale();
+                
+                let newLeft = (e.clientX - rect.left) / scale - offsetX;
+                let newTop = (e.clientY - rect.top) / scale - offsetY;
+                
+                activeElement.style.left = newLeft + 'px';
+                activeElement.style.top = newTop + 'px';
+            }
+        });
+
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+        });
+
+        // Çalışma alanına tıklanınca seçimi kaldır
+        workspace.addEventListener('mousedown', function(e) {
+            if (e.target === workspace || e.target.id === 'bg-image') {
+                removeActiveElement();
+            }
+        });
+
+        // Aktif elementi belirleme ve paneli güncelleme
+        function setActiveElement(element) {
+            document.querySelectorAll('.draggable').forEach(el => el.classList.remove('active'));
+            activeElement = element;
+            activeElement.classList.add('active');
+            
+            const editControls = document.getElementById('edit-controls');
+            const textControls = document.getElementById('text-controls');
+            const imageControls = document.getElementById('image-controls');
+            
+            editControls.style.display = 'flex';
+
+            if (element.classList.contains('text-element')) {
+                textControls.style.display = 'block';
+                imageControls.style.display = 'none';
+                
+                // Değerleri panele çek
+                document.getElementById('text-size').value = parseInt(window.getComputedStyle(element).fontSize);
+                
+                // RGB'yi Hex'e çevirip color inputa atama
+                let rgb = window.getComputedStyle(element).color;
+                if(rgb.startsWith('rgb')) {
+                    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+                    if(rgb) {
+                        const hex = "#" + ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+                                        ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+                                        ("0" + parseInt(rgb[3],10).toString(16)).slice(-2);
+                        document.getElementById('text-color').value = hex;
+                    }
+                }
+            } else if (element.classList.contains('image-element')) {
+                textControls.style.display = 'none';
+                imageControls.style.display = 'block';
+                document.getElementById('image-size').value = parseInt(element.offsetWidth);
+            }
+        }
+
+        function removeActiveElement() {
+            document.querySelectorAll('.draggable').forEach(el => el.classList.remove('active'));
+            activeElement = null;
+            document.getElementById('edit-controls').style.display = 'none';
+        }
+
+        // Panelden gelen değişiklikleri aktif elemente uygulama
+        function updateActiveElement() {
+            if (!activeElement) return;
+
+            if (activeElement.classList.contains('text-element')) {
+                const color = document.getElementById('text-color').value;
+                const size = document.getElementById('text-size').value;
+                activeElement.style.color = color;
+                activeElement.style.fontSize = size + 'px';
+            } else if (activeElement.classList.contains('image-element')) {
+                const size = document.getElementById('image-size').value;
+                activeElement.style.width = size + 'px';
+            }
+        }
+
+        // Seçili elementi silme
+        function deleteActiveElement() {
+            if (activeElement) {
+                activeElement.remove();
+                removeActiveElement();
+            }
+        }
+
+        // Başlangıçtaki resimleri sürüklenebilir yap
+        document.querySelectorAll('.draggable').forEach(makeDraggable);
+
+        // İndirme İşlemi
+        function downloadThumbnail() {
+            removeActiveElement(); // İndirmeden önce kesik çizgileri (seçimi) kaldır
+            
+            // html2canvas ile div'i resme çevir
+            html2canvas(workspace, {
+                scale: 1, // Birebir boyut (1280x720)
+                useCORS: true,
+                backgroundColor: null
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'cenk_hoca_thumbnail.png';
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+            });
+        }
+    </script>
+
+</body>
+</html>
