@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ehliyet Cenk Hoca - Pro Thumbnail Üretici v7 (Nihai)</title>
+    <title>Ehliyet Cenk Hoca - Pro Thumbnail Üretici (Final)</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Impact&family=Montserrat:wght@900&family=Oswald:wght@700&family=Roboto:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Impact&family=Montserrat:wght@400;700;900&family=Oswald:wght@400;700&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
         body { font-family: 'Segoe UI', sans-serif; background-color: #121212; color: #fff; margin: 0; padding: 10px; display: flex; gap: 10px; height: 100vh; box-sizing: border-box; overflow: hidden; }
 
-        /* Sol Menü Tasarımı */
+        /* Sol Menü */
         #sidebar { width: 380px; background-color: #1e1e1e; padding: 15px; border-radius: 8px; box-shadow: 2px 0 15px rgba(0,0,0,0.8); display: flex; flex-direction: column; gap: 12px; overflow-y: auto; height: 100%; border-right: 1px solid #333; }
         #sidebar::-webkit-scrollbar { width: 6px; }
         #sidebar::-webkit-scrollbar-track { background: #121212; }
@@ -50,14 +50,13 @@
             font-size: 80px; 
             font-family: 'Anton', sans-serif; 
             color: #ffffff; 
-            white-space: nowrap; /* Asla alt satıra geçmesin, net kalsın */
+            white-space: nowrap;
             padding: 5px 10px; 
             outline: none; 
             line-height: 1; 
             -webkit-font-smoothing: antialiased;
         }
         
-        /* Resim öğeleri için varsayılan stil - Görünür kılmak için */
         .image-element { width: auto; height: 150px; opacity: 1; visibility: visible; }
         
         .template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
@@ -68,22 +67,24 @@
     <div id="sidebar">
         <h2>Cenk Hoca Studio</h2>
         
-        <button class="btn-download" onclick="downloadThumbnail()">İndir (PNG)</button>
+        <!-- Max Çözünürlük İndirme Butonu -->
+        <button class="btn-download" onclick="downloadThumbnail()">İndir (2K MAX Kalite)</button>
 
         <div class="panel-section">
-            <div class="section-title">Arka Plan Resminiz</div>
+            <div class="section-title">Arka Plan & Öğeler</div>
+            <label>Arka Plan Resmi</label>
             <input type="file" id="upload-bg" accept="image/*">
-            <label style="margin-top: 5px;">Masaüstünden Avatar Yükle (Değiştir)</label>
+            <label style="margin-top: 5px;">Avatar Değiştir</label>
             <input type="file" id="upload-avatar" accept="image/*">
-            <label style="margin-top: 5px;">Masaüstünden Logo Yükle (Değiştir)</label>
+            <label style="margin-top: 5px;">Logo Değiştir</label>
             <input type="file" id="upload-logo" accept="image/*">
         </div>
 
         <div class="panel-section">
-            <div class="section-title">Temiz Şablonlar (Birebir 4 Satır)</div>
+            <div class="section-title">Şablonlar (Sağ Tarafa Ufak Eklenir)</div>
             <div class="template-grid">
                 <button class="btn-template" onclick="applyTemplate(1)">1. Klasik Sarı/Beyaz</button>
-                <button class="btn-template" onclick="applyTemplate(2)">2. Kutulu Ay (Kırmızı Kutu)</button>
+                <button class="btn-template" onclick="applyTemplate(2)">2. Kutulu Ay (Kırmızı)</button>
                 <button class="btn-template" onclick="applyTemplate(3)">3. Degrade Ateş (Sarı)</button>
                 <button class="btn-template" onclick="applyTemplate(4)">4. Degrade Buz (Mavi)</button>
                 <button class="btn-template" onclick="applyTemplate(5)">5. Montserrat Temiz</button>
@@ -112,16 +113,35 @@
             <div id="text-controls" style="display: none; flex-direction: column; gap: 8px;">
                 
                 <div class="panel-section">
-                    <div class="section-title">Temel Font & Boyut</div>
+                    <div class="section-title">Temel Font, Kalınlık & Boyut</div>
                     <select id="text-font" onchange="updateElement()">
-                        <option value="'Oswald', sans-serif">Oswald (Net YouTube)</option>
-                        <option value="'Montserrat', sans-serif">Montserrat (Kalın/Modern)</option>
-                        <option value="'Anton', sans-serif">Anton (Görseldeki)</option>
-                        <option value="'Impact', sans-serif">Impact (Klasik Okunaklı)</option>
-                        <option value="'Roboto', sans-serif">Roboto Black (Sade)</option>
-                        <option value="Arial Black">Arial Black (Temel)</option>
+                        <!-- YouTube Fontları -->
+                        <optgroup label="YouTube Fontları">
+                            <option value="'Oswald', sans-serif">Oswald (Net)</option>
+                            <option value="'Montserrat', sans-serif">Montserrat (Modern)</option>
+                            <option value="'Anton', sans-serif">Anton (Görseldeki)</option>
+                            <option value="'Impact', sans-serif">Impact (Okunaklı)</option>
+                            <option value="'Roboto', sans-serif">Roboto</option>
+                        </optgroup>
+                        <!-- Klasik Günlük Fontlar -->
+                        <optgroup label="Klasik Fontlar">
+                            <option value="Arial, sans-serif">Arial</option>
+                            <option value="'Tahoma', sans-serif">Tahoma</option>
+                            <option value="'Verdana', sans-serif">Verdana</option>
+                            <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+                            <option value="'Times New Roman', serif">Times New Roman</option>
+                            <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
+                        </optgroup>
                     </select>
-                    <div class="control-row"><label>Boyut:</label><input type="range" id="text-size" min="30" max="300" oninput="updateElement()"></div>
+                    <div class="control-row">
+                        <label>Kalınlık (Bold):</label>
+                        <select id="text-weight" onchange="updateElement()">
+                            <option value="normal">Normal (400)</option>
+                            <option value="bold">Kalın (700)</option>
+                            <option value="900">Ekstra Kalın (900)</option>
+                        </select>
+                    </div>
+                    <div class="control-row"><label>Boyut:</label><input type="range" id="text-size" min="15" max="300" oninput="updateElement()"></div>
                 </div>
 
                 <div class="panel-section">
@@ -145,16 +165,17 @@
                     <div class="section-title">Dış Çizgi & Gölge</div>
                     <div class="control-row">
                         <label>Dış Çizgi (Stroke):</label>
-                        <input type="range" id="stroke-width" min="0" max="25" value="8" oninput="updateElement()">
+                        <input type="range" id="stroke-width" min="0" max="25" value="4" oninput="updateElement()">
                         <input type="color" id="stroke-color" value="#000000" oninput="updateElement()">
                     </div>
                     <div class="control-row">
                         <label>Gölge Konumu (X-Y):</label>
-                        <input type="number" id="shadow-x" value="10" oninput="updateElement()">
-                        <input type="number" id="shadow-y" value="10" oninput="updateElement()">
+                        <input type="number" id="shadow-x" value="5" oninput="updateElement()">
+                        <input type="number" id="shadow-y" value="5" oninput="updateElement()">
                     </div>
                     <div class="control-row">
-                        <label>Gölge Bulanıklığı:</label><input type="range" id="shadow-blur" min="0" max="50" value="0" oninput="updateElement()">
+                        <label>Gölge Bulanıklığı:</label>
+                        <input type="range" id="shadow-blur" min="0" max="50" value="0" oninput="updateElement()">
                         <input type="color" id="shadow-color" value="#000000" oninput="updateElement()">
                     </div>
                 </div>
@@ -167,7 +188,7 @@
                     </div>
                     <div id="bg-extra-controls" style="display: none; flex-direction: column; gap: 8px; margin-top:5px;">
                         <div class="control-row">
-                            <label>Kutu Ovalliği:</label><input type="range" id="bg-radius" min="0" max="100" value="15" oninput="updateElement()">
+                            <label>Kutu Ovalliği:</label><input type="range" id="bg-radius" min="0" max="100" value="10" oninput="updateElement()">
                         </div>
                         <div class="control-row">
                             <label>Kutu Saydamlığı:</label><input type="range" id="bg-opacity" min="0" max="1" step="0.05" value="1" oninput="updateElement()">
@@ -221,7 +242,6 @@
         }
         window.addEventListener('resize', scaleWorkspace); scaleWorkspace();
 
-        // Resim Yükleme Motoru (Tüm Resimler İçin)
         function handleImageUpload(inputId, imgId) {
             document.getElementById(inputId).addEventListener('change', function(e) {
                 if (e.target.files[0]) {
@@ -229,7 +249,7 @@
                     reader.onload = ev => {
                         let img = document.getElementById(imgId);
                         img.src = ev.target.result;
-                        img.style.display = 'block'; // Yüklendikten sonra göster
+                        img.style.display = 'block';
                         img.style.opacity = '1';
                     }
                     reader.readAsDataURL(e.target.files[0]);
@@ -240,12 +260,11 @@
         handleImageUpload('upload-avatar', 'avatar');
         handleImageUpload('upload-logo', 'logo');
 
-        // Metin Ekleme Ana Motoru (Dataset'te özellikleri saklar)
         function addText(textValue, config = {}) {
             const dragContainer = document.createElement('div');
             dragContainer.className = 'draggable text-container';
-            dragContainer.style.top = config.top || '250px';
-            dragContainer.style.left = config.left || '40px';
+            dragContainer.style.top = config.top || '100px';
+            dragContainer.style.left = config.left || '800px';
 
             const textWrapper = document.createElement('div');
             textWrapper.className = 'text-wrapper';
@@ -259,15 +278,16 @@
             const dt = dragContainer.dataset;
             dt.type = 'text';
             dt.font = config.font || "'Anton', sans-serif";
-            dt.size = config.size || '100';
+            dt.weight = config.weight || 'normal';
+            dt.size = config.size || '50';
             dt.colorType = config.colorType || 'solid';
             dt.color1 = config.color1 || '#ffffff';
             dt.color2 = config.color2 || '#ff5500';
             dt.angle = config.angle || '180';
-            dt.strokeW = config.strokeW !== undefined ? config.strokeW : '8';
+            dt.strokeW = config.strokeW !== undefined ? config.strokeW : '4';
             dt.strokeC = config.strokeC || '#000000';
-            dt.shadowX = config.shadowX !== undefined ? config.shadowX : '8';
-            dt.shadowY = config.shadowY !== undefined ? config.shadowY : '8';
+            dt.shadowX = config.shadowX !== undefined ? config.shadowX : '5';
+            dt.shadowY = config.shadowY !== undefined ? config.shadowY : '5';
             dt.shadowBlur = config.shadowBlur || '0';
             dt.shadowC = config.shadowC || '#000000';
             dt.scaleX = config.scaleX || '1';
@@ -290,86 +310,89 @@
             textContent.addEventListener('dblclick', e => { textContent.focus(); document.execCommand('selectAll', false, null); });
         }
 
-        // --- ŞABLONLAR (Okunaklı Fontlar ve 4 Birebir Satır) ---
         function clearAllTexts() { document.querySelectorAll('.text-container').forEach(e => e.remove()); removeActiveElement(); }
 
         function applyTemplate(id) {
             clearAllTexts();
-            const x = "40px"; // Tam sola dayalı
-            const strkW = "10"; const shdX = "10"; const shdY = "10";
+            const x = "820px"; // Sağ tarafa derli toplu yerleşim
+            const strkW = "4"; 
+            const shdX = "5"; 
+            const shdY = "5";
 
-            // En okunaklı fontlar
             const fOswald = "'Oswald', sans-serif";
             const fMontserrat = "'Montserrat', sans-serif";
             const fImpact = "'Impact', sans-serif";
             const fAnton = "'Anton', sans-serif";
 
-            // Sabit Metinler
             const t1 = "Ehliyet Sınav Soruları 2026";
             const t2 = dinamikAyMetni;
             const t3 = "Banko 50 Soru";
             const t4 = "Detaylı Anlatım";
 
+            // Ufaltılmış Boyutlar ve Sağ Konumlar
+            const tps = { top1: "100px", top2: "160px", top3: "250px", top4: "310px" };
+            const szs = { sz1: "40", sz2: "70", sz3: "45", sz4: "45" };
+
             const tpls = {
                 1: [ // Klasik Sarı/Beyaz
-                    { text: t1, top: "50px", left: x, size: "90", font: fAnton, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t2, top: "200px", left: x, size: "160", font: fAnton, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t3, top: "430px", left: x, size: "100", font: fAnton, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t4, top: "550px", left: x, size: "100", font: fAnton, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY }
+                    { text: t1, top: tps.top1, left: x, size: szs.sz1, font: fAnton, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t2, top: tps.top2, left: x, size: szs.sz2, font: fAnton, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t3, top: tps.top3, left: x, size: szs.sz3, font: fAnton, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t4, top: tps.top4, left: x, size: szs.sz4, font: fAnton, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY }
                 ],
                 2: [ // Kutulu Ay (Montserrat)
-                    { text: t1, top: "50px", left: x, size: "85", font: fMontserrat, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t2, top: "220px", left: x, size: "120", font: fMontserrat, color1: "#ffffff", strokeW: "0", bgEnable: "true", bgColor: "#cc0000", bgRadius: "20" },
-                    { text: t3, top: "430px", left: x, size: "100", font: fMontserrat, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t4, top: "550px", left: x, size: "100", font: fMontserrat, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY }
+                    { text: t1, top: tps.top1, left: x, size: "38", font: fMontserrat, weight:"900", color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t2, top: tps.top2, left: x, size: "50", font: fMontserrat, weight:"900", color1: "#ffffff", strokeW: "0", bgEnable: "true", bgColor: "#cc0000", bgRadius: "10" },
+                    { text: t3, top: "240px", left: x, size: szs.sz3, font: fMontserrat, weight:"900", color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t4, top: "295px", left: x, size: szs.sz4, font: fMontserrat, weight:"900", color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY }
                 ],
-                3: [ // Degrade Ateş (Sarı - Ateş efekti)
-                    { text: t1, top: "50px", left: x, size: "90", font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t2, top: "200px", left: x, size: "160", font: fAnton, colorType: "gradient", color1: "#ffde00", color2: "#ff3300", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t3, top: "430px", left: x, size: "100", font: fImpact, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t4, top: "550px", left: x, size: "100", font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY }
+                3: [ // Degrade Ateş
+                    { text: t1, top: tps.top1, left: x, size: szs.sz1, font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t2, top: tps.top2, left: x, size: szs.sz2, font: fAnton, colorType: "gradient", color1: "#ffde00", color2: "#ff3300", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t3, top: tps.top3, left: x, size: szs.sz3, font: fImpact, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t4, top: tps.top4, left: x, size: szs.sz4, font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY }
                 ],
-                4: [ // Degrade Mavi (Buz efekti)
-                    { text: t1, top: "50px", left: x, size: "90", font: fAnton, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t2, top: "200px", left: x, size: "160", font: fAnton, colorType: "gradient", color1: "#00ffff", color2: "#0055ff", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t3, top: "430px", left: x, size: "100", font: fAnton, color1: "#00ffff", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t4, top: "550px", left: x, size: "100", font: fAnton, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY }
+                4: [ // Degrade Buz
+                    { text: t1, top: tps.top1, left: x, size: szs.sz1, font: fAnton, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t2, top: tps.top2, left: x, size: szs.sz2, font: fAnton, colorType: "gradient", color1: "#00ffff", color2: "#0055ff", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t3, top: tps.top3, left: x, size: szs.sz3, font: fAnton, color1: "#00ffff", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t4, top: tps.top4, left: x, size: szs.sz4, font: fAnton, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY }
                 ],
                 5: [ // Montserrat Temiz
-                    { text: t1, top: "50px", left: x, size: "85", font: fMontserrat, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t2, top: "200px", left: x, size: "150", font: fMontserrat, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t3, top: "430px", left: x, size: "100", font: fMontserrat, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t4, top: "550px", left: x, size: "100", font: fMontserrat, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY }
+                    { text: t1, top: tps.top1, left: x, size: "38", font: fMontserrat, weight:"bold", color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t2, top: tps.top2, left: x, size: "65", font: fMontserrat, weight:"900", color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t3, top: tps.top3, left: x, size: szs.sz3, font: fMontserrat, weight:"bold", color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t4, top: tps.top4, left: x, size: szs.sz4, font: fMontserrat, weight:"bold", color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY }
                 ],
                 6: [ // Oswald Bold
-                    { text: t1, top: "50px", left: x, size: "90", font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t2, top: "200px", left: x, size: "160", font: fOswald, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t3, top: "430px", left: x, size: "100", font: fOswald, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t4, top: "550px", left: x, size: "100", font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY }
+                    { text: t1, top: tps.top1, left: x, size: szs.sz1, font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t2, top: tps.top2, left: x, size: szs.sz2, font: fOswald, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t3, top: tps.top3, left: x, size: szs.sz3, font: fOswald, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t4, top: tps.top4, left: x, size: szs.sz4, font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY }
                 ],
-                7: [ // Siyah Kutulu (Özel Vurgu)
-                    { text: t1, top: "50px", left: x, size: "90", font: fOswald, color1: "#ffde00", strokeW: "0", bgEnable: "true", bgColor: "#000000", bgOpacity: "0.8" },
-                    { text: t2, top: "200px", left: x, size: "160", font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY },
-                    { text: t3, top: "430px", left: x, size: "100", font: fOswald, color1: "#ffde00", strokeW: "0", bgEnable: "true", bgColor: "#000000", bgOpacity: "0.8" },
-                    { text: t4, top: "550px", left: x, size: "100", font: fOswald, color1: "#ffffff", strokeW: "0", bgEnable: "true", bgColor: "#000000", bgOpacity: "0.8" }
+                7: [ // Siyah Kutulu Vurgu
+                    { text: t1, top: tps.top1, left: x, size: szs.sz1, font: fOswald, color1: "#ffde00", strokeW: "0", bgEnable: "true", bgColor: "#000000", bgOpacity: "0.8" },
+                    { text: t2, top: "155px", left: x, size: szs.sz2, font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY },
+                    { text: t3, top: "255px", left: x, size: szs.sz3, font: fOswald, color1: "#ffde00", strokeW: "0", bgEnable: "true", bgColor: "#000000", bgOpacity: "0.8" },
+                    { text: t4, top: "315px", left: x, size: szs.sz4, font: fOswald, color1: "#ffffff", strokeW: "0", bgEnable: "true", bgColor: "#000000", bgOpacity: "0.8" }
                 ],
                 8: [ // Genişlemiş (Yatay Sünmüş)
-                    { text: t1, top: "50px", left: x, size: "90", font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY, scaleX: "1.3" },
-                    { text: t2, top: "200px", left: x, size: "160", font: fAnton, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY, scaleX: "1.3" },
-                    { text: t3, top: "430px", left: x, size: "100", font: fOswald, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY, scaleX: "1.3" },
-                    { text: t4, top: "550px", left: x, size: "100", font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY, scaleX: "1.3" }
+                    { text: t1, top: tps.top1, left: x, size: szs.sz1, font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY, scaleX: "1.2" },
+                    { text: t2, top: tps.top2, left: x, size: szs.sz2, font: fAnton, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY, scaleX: "1.2" },
+                    { text: t3, top: tps.top3, left: x, size: szs.sz3, font: fOswald, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY, scaleX: "1.2" },
+                    { text: t4, top: tps.top4, left: x, size: szs.sz4, font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY, scaleX: "1.2" }
                 ],
-                9: [ // İleri Eğik (Skew X)
-                    { text: t1, top: "50px", left: x, size: "90", font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY, skewX: "-10" },
-                    { text: t2, top: "200px", left: x, size: "160", font: fImpact, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY, skewX: "-10" },
-                    { text: t3, top: "430px", left: x, size: "100", font: fOswald, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY, skewX: "-10" },
-                    { text: t4, top: "550px", left: x, size: "100", font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY, skewX: "-10" }
+                9: [ // İleri Eğik (Hız)
+                    { text: t1, top: tps.top1, left: x, size: szs.sz1, font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY, skewX: "-10" },
+                    { text: t2, top: tps.top2, left: x, size: szs.sz2, font: fImpact, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY, skewX: "-10" },
+                    { text: t3, top: tps.top3, left: x, size: szs.sz3, font: fOswald, color1: "#ffde00", strokeW: strkW, shadowX: shdX, shadowY: shdY, skewX: "-10" },
+                    { text: t4, top: tps.top4, left: x, size: szs.sz4, font: fOswald, color1: "#ffffff", strokeW: strkW, shadowX: shdX, shadowY: shdY, skewX: "-10" }
                 ],
-                10: [ // Neon Gölgeli (Bulanık Mavi Gölge)
-                    { text: t1, top: "50px", left: x, size: "90", font: fAnton, color1: "#ffffff", strokeW: "4", shadowX: "0", shadowY: "0", shadowBlur:"20", shadowC: "#00aaff" },
-                    { text: t2, top: "200px", left: x, size: "160", font: fAnton, colorType: "gradient", color1: "#ffffff", color2: "#00aaff", strokeW: "4", shadowX: "0", shadowY: "0", shadowBlur:"25", shadowC: "#00aaff" },
-                    { text: t3, top: "430px", left: x, size: "100", font: fAnton, color1: "#ffffff", strokeW: "4", shadowX: "0", shadowY: "0", shadowBlur:"20", shadowC: "#00aaff" },
-                    { text: t4, top: "550px", left: x, size: "100", font: fAnton, color1: "#ffffff", strokeW: "4", shadowX: "0", shadowY: "0", shadowBlur:"20", shadowC: "#00aaff" }
+                10: [ // Neon Gölgeli
+                    { text: t1, top: tps.top1, left: x, size: szs.sz1, font: fAnton, color1: "#ffffff", strokeW: "2", shadowX: "0", shadowY: "0", shadowBlur:"15", shadowC: "#00aaff" },
+                    { text: t2, top: tps.top2, left: x, size: szs.sz2, font: fAnton, colorType: "gradient", color1: "#ffffff", color2: "#00aaff", strokeW: "2", shadowX: "0", shadowY: "0", shadowBlur:"20", shadowC: "#00aaff" },
+                    { text: t3, top: tps.top3, left: x, size: szs.sz3, font: fAnton, color1: "#ffffff", strokeW: "2", shadowX: "0", shadowY: "0", shadowBlur:"15", shadowC: "#00aaff" },
+                    { text: t4, top: tps.top4, left: x, size: szs.sz4, font: fAnton, color1: "#ffffff", strokeW: "2", shadowX: "0", shadowY: "0", shadowBlur:"15", shadowC: "#00aaff" }
                 ]
             };
 
@@ -382,7 +405,6 @@
             document.getElementById('gradient-angle-row').style.display = (type === 'gradient') ? 'flex' : 'none';
         }
 
-        // Sürükleme Mantığı (Resimler ve Metinler için)
         function makeDraggable(element) {
             if(!element.dataset.type && element.tagName === 'IMG') {
                 element.dataset.type = 'image';
@@ -413,7 +435,6 @@
         document.addEventListener('mouseup', () => isDragging = false);
         workspace.addEventListener('mousedown', e => { if (e.target === workspace || e.target.id === 'bg-image') removeActiveElement(); });
 
-        // Panele Eleman Değerlerini Doldurma
         function setActiveElement(element) {
             document.querySelectorAll('.draggable').forEach(el => el.classList.remove('active'));
             activeElement = element;
@@ -426,6 +447,7 @@
                 
                 const d = element.dataset;
                 document.getElementById('text-font').value = d.font;
+                document.getElementById('text-weight').value = d.weight;
                 document.getElementById('text-size').value = d.size;
                 document.getElementById('color-type').value = d.colorType;
                 document.getElementById('color-1').value = d.color1;
@@ -451,19 +473,18 @@
             } else {
                 document.getElementById('text-controls').style.display = 'none';
                 document.getElementById('image-controls').style.display = 'flex';
-                // Resim için yükseklik ayarı
                 document.getElementById('image-size').value = parseInt(window.getComputedStyle(element).height);
             }
         }
 
         function removeActiveElement() { document.querySelectorAll('.draggable').forEach(el => el.classList.remove('active')); activeElement = null; document.getElementById('edit-controls').style.display = 'none'; }
 
-        // Panelden Elemana Güncelleme Uygulama
         function updateElement() {
             if (!activeElement) return;
             if (activeElement.dataset.type === 'text') {
                 const d = activeElement.dataset;
                 d.font = document.getElementById('text-font').value;
+                d.weight = document.getElementById('text-weight').value;
                 d.size = document.getElementById('text-size').value;
                 d.colorType = document.getElementById('color-type').value;
                 d.color1 = document.getElementById('color-1').value;
@@ -487,25 +508,22 @@
                 applyTextStyles(activeElement);
                 document.getElementById('bg-extra-controls').style.display = (d.bgEnable === 'true') ? 'flex' : 'none';
             } else {
-                // Resim boyutunu yükseklik üzerinden ayarla
                 activeElement.style.height = document.getElementById('image-size').value + 'px';
-                activeElement.style.width = 'auto'; // Oranı koru
+                activeElement.style.width = 'auto'; 
             }
         }
 
-        // CSS Kurallarını İşleyen Ana Fonksiyon
         function applyTextStyles(element) {
             const d = element.dataset;
             const wrapper = element.querySelector('.text-wrapper');
             const content = element.querySelector('.text-content');
             
             content.style.fontFamily = d.font; 
+            content.style.fontWeight = d.weight;
             content.style.fontSize = d.size + 'px'; 
             
-            // Dış Çizgi
             content.style.webkitTextStroke = `${d.strokeW}px ${d.strokeC}`;
             
-            // Renk & Degrade
             if (d.colorType === 'solid') { 
                 content.style.background = 'none'; 
                 content.style.webkitBackgroundClip = 'unset'; 
@@ -518,15 +536,13 @@
                 content.style.color = 'transparent'; 
             }
             
-            // Gölge (Drop Shadow - degrade ile çalışması için filtre olarak uygulandı)
             content.style.filter = `drop-shadow(${d.shadowX}px ${d.shadowY}px ${d.shadowBlur}px ${d.shadowC})`;
             
-            // Kutu ve Şekillendirme
             wrapper.style.transform = `scaleX(${d.scaleX}) scaleY(${d.scaleY}) skewX(${d.skewX}deg) rotate(${d.rotate}deg)`;
             
             if (d.bgEnable === 'true') { 
                 wrapper.style.backgroundColor = hexToRgba(d.bgColor, d.bgOpacity); 
-                wrapper.style.padding = '10px 25px'; 
+                wrapper.style.padding = '5px 20px'; 
                 wrapper.style.borderRadius = d.bgRadius + 'px'; 
             } else { 
                 wrapper.style.backgroundColor = 'transparent'; 
@@ -536,15 +552,13 @@
         }
 
         function deleteActiveElement() { if (activeElement) { activeElement.remove(); removeActiveElement(); } }
-        
-        // Başlangıç Resimlerini ve Metinleri Sürüklenebilir Yap
         document.querySelectorAll('.draggable').forEach(makeDraggable);
 
-        // İndirme Motoru
         function downloadThumbnail() {
             removeActiveElement(); workspace.style.transform = 'scale(1)'; 
-            html2canvas(workspace, { scale: 1, useCORS: true, backgroundColor: null, logging: false }).then(canvas => {
-                const link = document.createElement('a'); link.download = `CenkHoca_Thumbnail_${dinamikAyMetni}.png`; link.href = canvas.toDataURL("image/png"); link.click(); scaleWorkspace(); 
+            // Scale: 2 => 2560x1440 MAX Kalite Çıktı
+            html2canvas(workspace, { scale: 2, useCORS: true, backgroundColor: null, logging: false }).then(canvas => {
+                const link = document.createElement('a'); link.download = `CenkHoca_Thumbnail_${dinamikAyMetni}_2K.png`; link.href = canvas.toDataURL("image/png"); link.click(); scaleWorkspace(); 
             });
         }
     </script>
