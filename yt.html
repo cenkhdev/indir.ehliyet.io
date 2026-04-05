@@ -3,87 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ehliyet Cenk Hoca - Thumbnail Üretici</title>
-    <!-- Görüntüyü indirmek için html2canvas kütüphanesi -->
+    <title>Ehliyet Cenk Hoca - Gelişmiş Thumbnail Üretici</title>
+    <!-- Görüntüyü indirmek için html2canvas -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Popüler YouTube Fontları -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Impact&family=Montserrat:wght@800&family=Oswald:wght@700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1e1e2f;
+            background-color: #1a1a24;
             color: #fff;
             margin: 0;
             padding: 20px;
             display: flex;
             gap: 20px;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
         }
+
+        /* --- Sol Menü Tasarımı --- */
         #sidebar {
-            width: 300px;
-            background-color: #2a2a40;
+            width: 340px;
+            background-color: #262636;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
             display: flex;
             flex-direction: column;
             gap: 15px;
-            height: fit-content;
+            overflow-y: auto; /* Çok özellik olduğu için kaydırılabilir */
+            height: 100%;
         }
-        .control-group {
+        
+        /* Kaydırma Çubuğu Özelleştirme */
+        #sidebar::-webkit-scrollbar { width: 8px; }
+        #sidebar::-webkit-scrollbar-track { background: #1a1a24; border-radius: 4px;}
+        #sidebar::-webkit-scrollbar-thumb { background: #ffcc00; border-radius: 4px;}
+
+        h2 { margin-top: 0; color: #ffcc00; font-size: 20px; text-align: center;}
+        
+        .panel-section {
+            background: #323246;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #ffcc00;
             display: flex;
             flex-direction: column;
-            gap: 5px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #3f3f5a;
+            gap: 10px;
         }
-        .control-group:last-child {
-            border-bottom: none;
+
+        .section-title { font-size: 13px; color: #ffcc00; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; }
+
+        .control-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
         }
-        label { font-size: 14px; font-weight: bold; color: #a5a5c0; }
-        input[type="file"], input[type="color"], input[type="range"] {
-            width: 100%;
-            cursor: pointer;
-        }
-        button {
-            background-color: #ffcc00;
-            color: #1e1e2f;
-            border: none;
-            padding: 10px;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        button:hover { background-color: #e6b800; }
-        .btn-danger { background-color: #ff4d4d; color: white; }
-        .btn-danger:hover { background-color: #cc0000; }
-        .btn-success { background-color: #00cc66; color: white; font-size: 16px; margin-top: 10px;}
-        .btn-success:hover { background-color: #00994d; }
+
+        label { font-size: 12px; font-weight: bold; color: #d0d0e0; flex: 1;}
         
+        input[type="file"], select {
+            width: 100%; background: #1a1a24; color: white; border: 1px solid #505070; padding: 5px; border-radius: 4px; cursor: pointer;
+        }
+        
+        input[type="color"] {
+            width: 35px; height: 35px; border: none; cursor: pointer; background: transparent; padding: 0;
+        }
+        
+        input[type="range"] { flex: 2; cursor: pointer; }
+        input[type="number"] { width: 60px; background: #1a1a24; color: white; border: 1px solid #505070; padding: 4px; border-radius: 4px; text-align: center;}
+
+        button {
+            background-color: #ffcc00; color: #1a1a24; border: none; padding: 10px; font-weight: bold; border-radius: 5px; cursor: pointer; transition: 0.2s; width: 100%;
+        }
+        button:hover { background-color: #e6b800; transform: scale(1.02); }
+        .btn-add { background-color: #00cc66; color: white; }
+        .btn-add:hover { background-color: #00a352; }
+        .btn-danger { background-color: #ff4d4d; color: white; margin-top: 5px; }
+        .btn-danger:hover { background-color: #cc0000; }
+        .btn-download { background-color: #0099ff; color: white; font-size: 16px; padding: 15px;}
+        .btn-download:hover { background-color: #007acc; }
+        
+        /* --- Çalışma Alanı --- */
         #workspace-container {
             flex-grow: 1;
             overflow: auto;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center; /* Ortada tut */
+            background-image: linear-gradient(45deg, #222 25%, transparent 25%), linear-gradient(-45deg, #222 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #222 75%), linear-gradient(-45deg, transparent 75%, #222 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            border-radius: 10px;
         }
         
-        /* YouTube Thumbnail Standart Boyutu 1280x720 */
         #workspace {
             width: 1280px;
             height: 720px;
             background-color: #000;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transform-origin: top left;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            transform-origin: center center;
         }
 
         #bg-image {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            z-index: 0;
-            pointer-events: none;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none;
         }
 
         .draggable {
@@ -91,83 +119,186 @@
             z-index: 10;
             cursor: move;
             user-select: none;
-            box-sizing: border-box;
         }
         
-        .draggable.active {
-            outline: 3px dashed #00cc66;
+        .draggable.active::after {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border: 2px dashed #00cc66;
+            pointer-events: none;
         }
 
-        .text-element {
-            font-size: 60px;
+        /* Yazı sarmalayıcı ve içerik yapısı */
+        .text-wrapper {
+            display: inline-block;
+            transform-origin: center;
+        }
+
+        .text-content {
+            font-size: 80px;
             font-weight: bold;
             font-family: 'Impact', sans-serif;
             color: #ffffff;
-            text-shadow: 3px 3px 0px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
             white-space: nowrap;
-            padding: 5px;
+            padding: 5px 10px;
+            outline: none;
+            line-height: 1.1;
         }
 
-        .image-element {
-            width: 200px; /* Varsayılan genişlik */
-            height: auto;
-        }
+        .image-element { width: 200px; height: auto; }
 
     </style>
 </head>
 <body>
 
     <div id="sidebar">
-        <h2 style="margin-top: 0; color: #ffcc00;">Araç Çubuğu</h2>
+        <h2>🎨 Thumbnail Paneli</h2>
         
-        <div class="control-group">
-            <label>Arka Plan Resmi Seç</label>
+        <button class="btn-download" onclick="downloadThumbnail()">📥 Tasarımı İndir (PNG)</button>
+
+        <div class="panel-section">
+            <div class="section-title">Temel Katmanlar</div>
+            <label>Arka Plan Seç</label>
             <input type="file" id="upload-bg" accept="image/*">
-        </div>
-
-        <div class="control-group">
-            <label>Yeni Yazı Ekle</label>
-            <button onclick="addText()">+ Yazı Ekle</button>
-        </div>
-
-        <div class="control-group" id="edit-controls" style="display: none; background: #3f3f5a; padding: 10px; border-radius: 5px;">
-            <label style="color: white; margin-bottom: 5px; display: block;">Seçili Öğeyi Düzenle</label>
-            
-            <div id="text-controls">
-                <label>Renk:</label>
-                <input type="color" id="text-color" oninput="updateActiveElement()">
-                <label>Boyut:</label>
-                <input type="range" id="text-size" min="20" max="200" value="60" oninput="updateActiveElement()">
-            </div>
-            
-            <div id="image-controls" style="display: none;">
-                <label>Görsel Boyutu:</label>
-                <input type="range" id="image-size" min="50" max="800" value="200" oninput="updateActiveElement()">
-            </div>
-
-            <button class="btn-danger" style="margin-top: 10px;" onclick="deleteActiveElement()">Seçili Öğeyi Sil</button>
-        </div>
-
-        <div class="control-group">
-            <label>Avatarı Değiştir (İsteğe Bağlı)</label>
+            <label style="margin-top:5px;">Avatar Değiştir (avatar.png)</label>
             <input type="file" id="upload-avatar" accept="image/*">
-        </div>
-
-        <div class="control-group">
-            <label>Logoyu Değiştir (İsteğe Bağlı)</label>
+            <label style="margin-top:5px;">Logo Değiştir (logo.png)</label>
             <input type="file" id="upload-logo" accept="image/*">
         </div>
 
-        <button class="btn-success" onclick="downloadThumbnail()">Görseli İndir (PNG)</button>
+        <button class="btn-add" onclick="addText()">+ YENİ YAZI EKLE</button>
+
+        <!-- DÜZENLEME PANELİ (Sadece bir öğe seçilince görünür) -->
+        <div id="edit-controls" style="display: none; flex-direction: column; gap: 15px;">
+            
+            <!-- Resim Düzenleme -->
+            <div id="image-controls" class="panel-section" style="display: none;">
+                <div class="section-title">Görsel Ayarları</div>
+                <div class="control-row">
+                    <label>Boyut:</label>
+                    <input type="range" id="image-size" min="50" max="1000" oninput="updateElement()">
+                </div>
+            </div>
+
+            <!-- Metin Düzenleme -->
+            <div id="text-controls" style="display: none; flex-direction: column; gap: 15px;">
+                
+                <div class="panel-section">
+                    <div class="section-title">Font & Boyut</div>
+                    <select id="text-font" onchange="updateElement()">
+                        <option value="Impact">Impact (Klasik)</option>
+                        <option value="'Anton', sans-serif">Anton</option>
+                        <option value="'Bebas Neue', sans-serif">Bebas Neue</option>
+                        <option value="'Oswald', sans-serif">Oswald</option>
+                        <option value="'Montserrat', sans-serif">Montserrat (Kalın)</option>
+                        <option value="Arial Black">Arial Black</option>
+                        <option value="Tahoma">Tahoma</option>
+                    </select>
+                    <div class="control-row">
+                        <label>Boyut:</label>
+                        <input type="range" id="text-size" min="20" max="300" oninput="updateElement()">
+                    </div>
+                    <div class="control-row">
+                        <label>Harf Aralığı:</label>
+                        <input type="range" id="text-spacing" min="-10" max="50" value="0" oninput="updateElement()">
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="section-title">Renk & Degrade (Gradient)</div>
+                    <select id="color-type" onchange="toggleColorType(); updateElement()">
+                        <option value="solid">Tek Renk</option>
+                        <option value="gradient">Degrade (İki Renk)</option>
+                    </select>
+                    <div class="control-row">
+                        <label>Renk 1:</label>
+                        <input type="color" id="color-1" value="#ffffff" oninput="updateElement()">
+                    </div>
+                    <div class="control-row" id="color-2-row" style="display: none;">
+                        <label>Renk 2:</label>
+                        <input type="color" id="color-2" value="#ffcc00" oninput="updateElement()">
+                    </div>
+                    <div class="control-row" id="gradient-angle-row" style="display: none;">
+                        <label>Açı:</label>
+                        <input type="range" id="gradient-angle" min="0" max="360" value="180" oninput="updateElement()">
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="section-title">Dış Çizgi (Stroke)</div>
+                    <div class="control-row">
+                        <label>Kalınlık:</label>
+                        <input type="range" id="stroke-width" min="0" max="20" value="4" oninput="updateElement()">
+                    </div>
+                    <div class="control-row">
+                        <label>Renk:</label>
+                        <input type="color" id="stroke-color" value="#000000" oninput="updateElement()">
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="section-title">Gölge (Shadow)</div>
+                    <div class="control-row">
+                        <label>X-Y Konumu:</label>
+                        <input type="number" id="shadow-x" value="5" oninput="updateElement()">
+                        <input type="number" id="shadow-y" value="5" oninput="updateElement()">
+                    </div>
+                    <div class="control-row">
+                        <label>Bulanıklık:</label>
+                        <input type="range" id="shadow-blur" min="0" max="50" value="0" oninput="updateElement()">
+                    </div>
+                    <div class="control-row">
+                        <label>Renk:</label>
+                        <input type="color" id="shadow-color" value="#000000" oninput="updateElement()">
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="section-title">Şekillendirme (Sündürme/Döndürme)</div>
+                    <div class="control-row">
+                        <label>Yatay Uzat:</label>
+                        <input type="range" id="scale-x" min="0.5" max="3" step="0.1" value="1" oninput="updateElement()">
+                    </div>
+                    <div class="control-row">
+                        <label>Dikey Uzat:</label>
+                        <input type="range" id="scale-y" min="0.5" max="3" step="0.1" value="1" oninput="updateElement()">
+                    </div>
+                    <div class="control-row">
+                        <label>Döndür (°):</label>
+                        <input type="range" id="rotate" min="-180" max="180" value="0" oninput="updateElement()">
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="section-title">Arka Plan Kutusu (Kutu İçinde Yazı)</div>
+                    <div class="control-row">
+                        <label>Kutu Rengi:</label>
+                        <input type="color" id="bg-color" value="#ff0000" oninput="updateElement()">
+                        <input type="checkbox" id="bg-enable" onchange="updateElement()"> <span style="font-size:12px">Aktif</span>
+                    </div>
+                    <div class="control-row">
+                        <label>Köşe Ovalliği:</label>
+                        <input type="range" id="bg-radius" min="0" max="50" value="10" oninput="updateElement()">
+                    </div>
+                    <div class="control-row">
+                        <label>Dış Çerçeve Rengi:</label>
+                        <input type="color" id="box-border-color" value="#ffffff" oninput="updateElement()">
+                        <input type="checkbox" id="box-border-enable" onchange="updateElement()"> <span style="font-size:12px">Aktif</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="btn-danger" onclick="deleteActiveElement()">🗑️ Seçili Öğeyi Sil</button>
+        </div>
     </div>
 
     <div id="workspace-container">
-        <!-- Tasarım Alanı -->
         <div id="workspace">
             <img id="bg-image" src="" alt="">
             
-            <!-- Varsayılan Resimler (Aynı dizinden çekilir) -->
-            <img id="avatar" src="avatar.png" class="draggable image-element" style="top: 100px; left: 800px; width: 400px;" onerror="this.style.display='none'">
+            <img id="avatar" src="avatar.png" class="draggable image-element" style="top: 80px; left: 800px; width: 450px;" onerror="this.style.display='none'">
             <img id="logo" src="logo.png" class="draggable image-element" style="top: 20px; left: 1050px; width: 200px;" onerror="this.style.display='none'">
         </div>
     </div>
@@ -178,85 +309,132 @@
         let isDragging = false;
         let offsetX, offsetY;
 
-        // Arka plan yükleme
-        document.getElementById('upload-bg').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    document.getElementById('bg-image').src = event.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Avatar değiştirme
-        document.getElementById('upload-avatar').addEventListener('change', function(e) {
-            updateImageSource(e.target.files[0], 'avatar');
-        });
-
-        // Logo değiştirme
-        document.getElementById('upload-logo').addEventListener('change', function(e) {
-            updateImageSource(e.target.files[0], 'logo');
-        });
-
-        function updateImageSource(file, elementId) {
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    let img = document.getElementById(elementId);
-                    img.src = event.target.result;
-                    img.style.display = 'block'; // Eğer başta hata verip gizlendiyse tekrar göster
-                }
-                reader.readAsDataURL(file);
-            }
+        // Sayfa yüklendiğinde çalışma alanını ekrana sığdır
+        function scaleWorkspace() {
+            const container = document.getElementById('workspace-container');
+            const scale = Math.min(
+                (container.clientWidth - 40) / 1280,
+                (container.clientHeight - 40) / 720
+            );
+            workspace.style.transform = `scale(${scale})`;
         }
+        window.addEventListener('resize', scaleWorkspace);
+        scaleWorkspace();
 
-        // Yeni metin ekleme
+        // Arka Plan, Avatar, Logo Yükleme İşlemleri
+        function handleImageUpload(inputId, imgId) {
+            document.getElementById(inputId).addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        let img = document.getElementById(imgId);
+                        img.src = event.target.result;
+                        img.style.display = 'block';
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+        handleImageUpload('upload-bg', 'bg-image');
+        handleImageUpload('upload-avatar', 'avatar');
+        handleImageUpload('upload-logo', 'logo');
+
+        // YENİ METİN EKLEME
         function addText() {
-            const textDiv = document.createElement('div');
-            textDiv.className = 'draggable text-element';
-            textDiv.contentEditable = "true";
-            textDiv.innerText = 'YENİ METİN';
-            textDiv.style.top = '300px';
-            textDiv.style.left = '50px';
+            const dragContainer = document.createElement('div');
+            dragContainer.className = 'draggable text-container';
+            dragContainer.style.top = '250px';
+            dragContainer.style.left = '100px';
+
+            const textWrapper = document.createElement('div');
+            textWrapper.className = 'text-wrapper';
             
-            workspace.appendChild(textDiv);
-            makeDraggable(textDiv);
-            setActiveElement(textDiv);
+            const textContent = document.createElement('div');
+            textContent.className = 'text-content';
+            textContent.contentEditable = "true";
+            textContent.innerText = 'YENİ METİN';
+            textContent.spellcheck = false;
+
+            // Varsayılan Veri (State) Ayarları
+            dragContainer.dataset.type = 'text';
+            dragContainer.dataset.font = 'Impact';
+            dragContainer.dataset.size = '80';
+            dragContainer.dataset.spacing = '0';
+            dragContainer.dataset.colorType = 'solid';
+            dragContainer.dataset.color1 = '#ffffff';
+            dragContainer.dataset.color2 = '#ffcc00';
+            dragContainer.dataset.angle = '180';
+            dragContainer.dataset.strokeW = '4';
+            dragContainer.dataset.strokeC = '#000000';
+            dragContainer.dataset.shadowX = '5';
+            dragContainer.dataset.shadowY = '5';
+            dragContainer.dataset.shadowB = '0';
+            dragContainer.dataset.shadowC = '#000000';
+            dragContainer.dataset.scaleX = '1';
+            dragContainer.dataset.scaleY = '1';
+            dragContainer.dataset.rotate = '0';
+            dragContainer.dataset.bgEnable = 'false';
+            dragContainer.dataset.bgColor = '#ff0000';
+            dragContainer.dataset.bgRadius = '10';
+            dragContainer.dataset.borderEnable = 'false';
+            dragContainer.dataset.borderColor = '#ffffff';
+
+            textWrapper.appendChild(textContent);
+            dragContainer.appendChild(textWrapper);
+            workspace.appendChild(dragContainer);
             
-            // Çift tıklanınca metin düzenlemeye odaklansın
-            textDiv.addEventListener('dblclick', function() {
-                textDiv.focus();
+            makeDraggable(dragContainer);
+            applyTextStyles(dragContainer);
+            setActiveElement(dragContainer);
+
+            textContent.addEventListener('dblclick', function(e) {
+                textContent.focus();
+                document.execCommand('selectAll', false, null);
             });
         }
 
-        // Sürükle Bırak Mantığı
+        // Renk Türü Değişimi (Tek - Degrade) Görünümü
+        function toggleColorType() {
+            const type = document.getElementById('color-type').value;
+            document.getElementById('color-2-row').style.display = (type === 'gradient') ? 'flex' : 'none';
+            document.getElementById('gradient-angle-row').style.display = (type === 'gradient') ? 'flex' : 'none';
+        }
+
+        // SÜRÜKLE BIRAK SİSTEMİ
         function makeDraggable(element) {
+            if(!element.dataset.type && element.tagName === 'IMG') {
+                element.dataset.type = 'image';
+            }
+
             element.addEventListener('mousedown', function(e) {
-                if (e.target.isContentEditable && document.activeElement === e.target) {
-                    return; // Eğer metin düzenleniyorsa sürüklemeyi kapat
-                }
+                if (e.target.isContentEditable && document.activeElement === e.target) return; // Metin yazılırken sürüklemeyi iptal et
+                
                 setActiveElement(element);
                 isDragging = true;
                 
-                // Fare pozisyonu ile elementin sol üst köşesi arasındaki fark
+                // Scale faktörünü alarak doğru konum hesaplama
+                const transformMatrix = window.getComputedStyle(workspace).transform;
+                let scale = 1;
+                if (transformMatrix !== 'none') {
+                    scale = parseFloat(transformMatrix.split('(')[1].split(',')[0]);
+                }
+
                 const rect = element.getBoundingClientRect();
-                const scale = getWorkspaceScale(); // Eğer ekran küçültülmüşse oranı al
                 offsetX = (e.clientX - rect.left) / scale;
                 offsetY = (e.clientY - rect.top) / scale;
+                e.stopPropagation();
             });
-        }
-
-        // Ekran boyutuna göre Workspace ölçeğini hesaplama
-        function getWorkspaceScale() {
-            return workspace.getBoundingClientRect().width / workspace.offsetWidth;
         }
 
         document.addEventListener('mousemove', function(e) {
             if (isDragging && activeElement) {
+                const transformMatrix = window.getComputedStyle(workspace).transform;
+                let scale = 1;
+                if (transformMatrix !== 'none') {
+                    scale = parseFloat(transformMatrix.split('(')[1].split(',')[0]);
+                }
                 const rect = workspace.getBoundingClientRect();
-                const scale = getWorkspaceScale();
                 
                 let newLeft = (e.clientX - rect.left) / scale - offsetX;
                 let newTop = (e.clientY - rect.top) / scale - offsetY;
@@ -266,50 +444,55 @@
             }
         });
 
-        document.addEventListener('mouseup', function() {
-            isDragging = false;
-        });
-
-        // Çalışma alanına tıklanınca seçimi kaldır
+        document.addEventListener('mouseup', function() { isDragging = false; });
+        
         workspace.addEventListener('mousedown', function(e) {
             if (e.target === workspace || e.target.id === 'bg-image') {
                 removeActiveElement();
             }
         });
 
-        // Aktif elementi belirleme ve paneli güncelleme
+        // AKTİF ÖĞEYİ BELİRLEME
         function setActiveElement(element) {
             document.querySelectorAll('.draggable').forEach(el => el.classList.remove('active'));
             activeElement = element;
             activeElement.classList.add('active');
             
-            const editControls = document.getElementById('edit-controls');
-            const textControls = document.getElementById('text-controls');
-            const imageControls = document.getElementById('image-controls');
-            
-            editControls.style.display = 'flex';
+            document.getElementById('edit-controls').style.display = 'flex';
 
-            if (element.classList.contains('text-element')) {
-                textControls.style.display = 'block';
-                imageControls.style.display = 'none';
+            if (element.dataset.type === 'text') {
+                document.getElementById('text-controls').style.display = 'flex';
+                document.getElementById('image-controls').style.display = 'none';
                 
-                // Değerleri panele çek
-                document.getElementById('text-size').value = parseInt(window.getComputedStyle(element).fontSize);
-                
-                // RGB'yi Hex'e çevirip color inputa atama
-                let rgb = window.getComputedStyle(element).color;
-                if(rgb.startsWith('rgb')) {
-                    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-                    if(rgb) {
-                        const hex = "#" + ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
-                                        ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
-                                        ("0" + parseInt(rgb[3],10).toString(16)).slice(-2);
-                        document.getElementById('text-color').value = hex;
-                    }
-                }
-            } else if (element.classList.contains('image-element')) {
-                textControls.style.display = 'none';
-                imageControls.style.display = 'block';
+                // Paneli elementin verileriyle doldur
+                const d = element.dataset;
+                document.getElementById('text-font').value = d.font;
+                document.getElementById('text-size').value = d.size;
+                document.getElementById('text-spacing').value = d.spacing;
+                document.getElementById('color-type').value = d.colorType;
+                document.getElementById('color-1').value = d.color1;
+                document.getElementById('color-2').value = d.color2;
+                document.getElementById('gradient-angle').value = d.angle;
+                document.getElementById('stroke-width').value = d.strokeW;
+                document.getElementById('stroke-color').value = d.strokeC;
+                document.getElementById('shadow-x').value = d.shadowX;
+                document.getElementById('shadow-y').value = d.shadowY;
+                document.getElementById('shadow-blur').value = d.shadowB;
+                document.getElementById('shadow-color').value = d.shadowC;
+                document.getElementById('scale-x').value = d.scaleX;
+                document.getElementById('scale-y').value = d.scaleY;
+                document.getElementById('rotate').value = d.rotate;
+                document.getElementById('bg-enable').checked = (d.bgEnable === 'true');
+                document.getElementById('bg-color').value = d.bgColor;
+                document.getElementById('bg-radius').value = d.bgRadius;
+                document.getElementById('box-border-enable').checked = (d.borderEnable === 'true');
+                document.getElementById('box-border-color').value = d.borderColor;
+
+                toggleColorType();
+
+            } else if (element.dataset.type === 'image') {
+                document.getElementById('text-controls').style.display = 'none';
+                document.getElementById('image-controls').style.display = 'block';
                 document.getElementById('image-size').value = parseInt(element.offsetWidth);
             }
         }
@@ -320,49 +503,116 @@
             document.getElementById('edit-controls').style.display = 'none';
         }
 
-        // Panelden gelen değişiklikleri aktif elemente uygulama
-        function updateActiveElement() {
+        // PANELDEKİ DEĞİŞİKLİKLERİ ÖĞEYE UYGULAMA
+        function updateElement() {
             if (!activeElement) return;
 
-            if (activeElement.classList.contains('text-element')) {
-                const color = document.getElementById('text-color').value;
-                const size = document.getElementById('text-size').value;
-                activeElement.style.color = color;
-                activeElement.style.fontSize = size + 'px';
-            } else if (activeElement.classList.contains('image-element')) {
-                const size = document.getElementById('image-size').value;
-                activeElement.style.width = size + 'px';
+            if (activeElement.dataset.type === 'text') {
+                const d = activeElement.dataset;
+                d.font = document.getElementById('text-font').value;
+                d.size = document.getElementById('text-size').value;
+                d.spacing = document.getElementById('text-spacing').value;
+                d.colorType = document.getElementById('color-type').value;
+                d.color1 = document.getElementById('color-1').value;
+                d.color2 = document.getElementById('color-2').value;
+                d.angle = document.getElementById('gradient-angle').value;
+                d.strokeW = document.getElementById('stroke-width').value;
+                d.strokeC = document.getElementById('stroke-color').value;
+                d.shadowX = document.getElementById('shadow-x').value;
+                d.shadowY = document.getElementById('shadow-y').value;
+                d.shadowB = document.getElementById('shadow-blur').value;
+                d.shadowC = document.getElementById('shadow-color').value;
+                d.scaleX = document.getElementById('scale-x').value;
+                d.scaleY = document.getElementById('scale-y').value;
+                d.rotate = document.getElementById('rotate').value;
+                d.bgEnable = document.getElementById('bg-enable').checked;
+                d.bgColor = document.getElementById('bg-color').value;
+                d.bgRadius = document.getElementById('bg-radius').value;
+                d.borderEnable = document.getElementById('box-border-enable').checked;
+                d.borderColor = document.getElementById('box-border-color').value;
+
+                applyTextStyles(activeElement);
+
+            } else if (activeElement.dataset.type === 'image') {
+                activeElement.style.width = document.getElementById('image-size').value + 'px';
             }
         }
 
-        // Seçili elementi silme
+        // CSS STİLLERİNİ UYGULAYAN ANA FONKSİYON
+        function applyTextStyles(element) {
+            const d = element.dataset;
+            const wrapper = element.querySelector('.text-wrapper');
+            const content = element.querySelector('.text-content');
+
+            // --- 1. İçerik Stilleri (Renk, Çizgi, Font) ---
+            content.style.fontFamily = d.font;
+            content.style.fontSize = d.size + 'px';
+            content.style.letterSpacing = d.spacing + 'px';
+            content.style.webkitTextStroke = `${d.strokeW}px ${d.strokeC}`;
+            
+            // Renk / Degrade
+            if (d.colorType === 'solid') {
+                content.style.background = 'none';
+                content.style.webkitBackgroundClip = 'unset';
+                content.style.webkitTextFillColor = 'unset';
+                content.style.color = d.color1;
+            } else {
+                content.style.background = `linear-gradient(${d.angle}deg, ${d.color1}, ${d.color2})`;
+                content.style.webkitBackgroundClip = 'text';
+                content.style.webkitTextFillColor = 'transparent';
+                content.style.color = 'transparent';
+            }
+
+            // Gölge (Drop Shadow) - Metin üzerinde degrade çalışırken text-shadow bozulduğu için drop-shadow kullanıyoruz.
+            content.style.filter = `drop-shadow(${d.shadowX}px ${d.shadowY}px ${d.shadowB}px ${d.shadowC})`;
+
+            // --- 2. Wrapper Stilleri (Sündürme, Döndürme, Arka Plan Kutusu) ---
+            wrapper.style.transform = `scaleX(${d.scaleX}) scaleY(${d.scaleY}) rotate(${d.rotate}deg)`;
+            
+            if (d.bgEnable === 'true') {
+                wrapper.style.backgroundColor = d.bgColor;
+                wrapper.style.borderRadius = d.bgRadius + 'px';
+                wrapper.style.padding = '0 15px'; // Kutu aktifse yanlardan pay bırak
+            } else {
+                wrapper.style.backgroundColor = 'transparent';
+                wrapper.style.padding = '0';
+            }
+
+            // Kutu Çerçevesi
+            if(d.borderEnable === 'true' && d.bgEnable === 'true') {
+                wrapper.style.border = `4px solid ${d.borderColor}`;
+            } else {
+                wrapper.style.border = 'none';
+            }
+        }
+
         function deleteActiveElement() {
-            if (activeElement) {
-                activeElement.remove();
-                removeActiveElement();
-            }
+            if (activeElement) { activeElement.remove(); removeActiveElement(); }
         }
 
-        // Başlangıçtaki resimleri sürüklenebilir yap
+        // Başlangıç Resimlerini Sürüklenebilir Yap
         document.querySelectorAll('.draggable').forEach(makeDraggable);
 
-        // İndirme İşlemi
+        // İNDİRME İŞLEMİ
         function downloadThumbnail() {
-            removeActiveElement(); // İndirmeden önce kesik çizgileri (seçimi) kaldır
+            removeActiveElement(); // Seçim çizgisini kaldır
             
-            // html2canvas ile div'i resme çevir
+            // HTML2Canvas ekran küçültmelerinden (scale) etkilenmesin diye geçici olarak scale'i sıfırlıyoruz.
+            workspace.style.transform = 'scale(1)'; 
+            
             html2canvas(workspace, {
-                scale: 1, // Birebir boyut (1280x720)
+                scale: 1, // Tam boyut 1280x720
                 useCORS: true,
-                backgroundColor: null
+                backgroundColor: null,
+                logging: false
             }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = 'cenk_hoca_thumbnail.png';
+                link.download = 'cenk_hoca_thumbnail_pro.png';
                 link.href = canvas.toDataURL("image/png");
                 link.click();
+                scaleWorkspace(); // Ekranı tekrar eski haline küçült
             });
         }
     </script>
-
 </body>
 </html>
